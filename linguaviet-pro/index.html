@@ -172,7 +172,7 @@
     @media (max-width: 900px) {
       .sidebar {
         position: static;
-        max-height: 240px;
+        max-height: 250px;
       }
     }
 
@@ -385,6 +385,11 @@
       font-size: 0.84rem;
       cursor: pointer;
       min-height: 36px;
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
     }
 
     .btn-primary {
@@ -604,6 +609,40 @@
   <script src="data/en_100_outline.js"></script>
 
   <script>
+    const FALLBACK_ZH = [
+      {
+        id: 1,
+        stage: 1,
+        level: "HSK 1 · Chặng 1: Nền tảng phát âm & Chào hỏi",
+        title: "Nǐ hǎo, Thanh điệu & Chào hỏi cơ bản",
+        subtitle: "Làm quen chào hỏi và giới thiệu bản thân",
+        prereq: "Bài mở đầu cho người Việt",
+        vocab: [{ word: "你好", pinyin: "nǐ hǎo", meaning: "Xin chào", tip: "Đọc rõ thanh 2 + thanh 3." }],
+        grammar: { formula: "我叫 + [Tên]", explanation: "Giới thiệu tên đơn giản.", tiles: ["我", "叫", "明。"], answer: "我叫明。" },
+        dialogue: [{ speaker: "A", target: "你好！", pinyin: "Nǐ hǎo!", vi: "Xin chào!" }],
+        reading: { title: "Chào buổi sáng", text: "你好，我是老师。", pinyin: "Nǐ hǎo, wǒ shì lǎoshī.", vi: "Xin chào, tôi là giáo viên.", question: "Người nói là ai?", options: ["Giáo viên", "Bác sĩ"], correctIndex: 0 },
+        dictationTarget: "好",
+        quiz: { question: "'你好' nghĩa là gì?", options: ["Xin chào", "Tạm biệt"], correctIndex: 0 }
+      }
+    ];
+
+    const FALLBACK_EN = [
+      {
+        id: 1,
+        stage: 1,
+        level: "CEFR A1 · Chặng 1: Ngữ âm chuẩn Anh-Mỹ & Chào hỏi",
+        title: "Hello, Introductions & Politeness",
+        subtitle: "Basic greetings and introducing yourself",
+        prereq: "Bài mở đầu cho người Việt",
+        vocab: [{ word: "Hello", ipa: "/həˈloʊ/", meaning: "Xin chào", tip: "Trọng âm rơi vào âm tiết thứ hai." }],
+        grammar: { formula: "My name is + [Name]", explanation: "Dùng để giới thiệu tên.", tiles: ["My", "name", "is", "Lan."], answer: "My name is Lan." },
+        dialogue: [{ speaker: "A", target: "Hello! Nice to meet you.", ipa: "/həˈloʊ naɪs tə miːt juː/", vi: "Xin chào! Rất vui được gặp bạn." }],
+        reading: { title: "First greeting", text: "Hello, my name is Tom.", ipa: "/həˈloʊ maɪ neɪm ɪz tɑːm/", vi: "Xin chào, tên tôi là Tom.", question: "What is his name?", options: ["Tom", "Ben"], correctIndex: 0 },
+        dictationTarget: "hello",
+        quiz: { question: "'Hello' có nghĩa là gì?", options: ["Xin chào", "Cảm ơn"], correctIndex: 0 }
+      }
+    ];
+
     const state = {
       lang: "zh",
       stageFilter: 0,
@@ -617,13 +656,25 @@
       showMeaning: true
     };
 
+    let hanziWriterInstance = null;
+
     function getLessons() {
-      return state.lang === "zh" ? (window.ZH_LESSONS || []) : (window.EN_LESSONS || []);
+      if (state.lang === "zh") {
+        const list = window.ZH_LESSONS_50 || window.ZH_LESSONS;
+        return Array.isArray(list) && list.length ? list : FALLBACK_ZH;
+      }
+      const list = window.EN_LESSONS_50 || window.EN_LESSONS;
+      return Array.isArray(list) && list.length ? list : FALLBACK_EN;
     }
 
     function getCurrentLesson() {
       const list = getLessons();
       return list.find((l) => l.id === state.currentLessonId) || list[0];
+    }
+
+    function getWritingChar(lesson) {
+      const raw = lesson.writingChar || lesson.dictationTarget || (lesson.vocab && lesson.vocab[0] && lesson.vocab[0].word) || "好";
+      return Array.from(String(raw))[0] || "好";
     }
 
     function addXp(points) {
@@ -634,7 +685,8 @@
     function switchLanguage(lang) {
       state.lang = lang;
       state.stageFilter = 0;
-      state.currentLessonId = state.unlocked[lang][state.unlocked[lang].length - 1] || 1;
+      const list = getLessons();
+      state.currentLessonId = (list[0] && list[0].id) || 1;
       state.step = 1;
       document.getElementById("btn-lang-zh").classList.toggle("active", lang === "zh");
       document.getElementById("btn-lang-en").classList.toggle("active", lang === "en");
@@ -646,14 +698,10 @@
       state.unlocked[state.lang] = getLessons().map((l) => l.id);
       renderSidebar();
       renderWorkspace();
-      alert("Đã mở khóa toàn bộ 50 bài của ngôn ngữ hiện tại.");
     }
 
     function speakText(text, rate = 1.0) {
-      if (!("speechSynthesis" in window)) {
-        alert("Trình duyệt không hỗ trợ phát giọng nói trực tiếp.");
-        return;
-      }
+      if (!("speechSynthesis" in window)) return;
       window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = state.lang === "zh" ? "zh-CN" : "en-US";
@@ -662,11 +710,8 @@
     }
 
     function playDialogueSequence(lines, idx = 0) {
-      if (idx >= lines.length) return;
-      if (!("speechSynthesis" in window)) {
-        speakText(lines[idx].target, 1.0);
-        return;
-      }
+      if (!Array.isArray(lines) || idx >= lines.length) return;
+      if (!("speechSynthesis" in window)) return;
       window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(lines[idx].target);
       utter.lang = state.lang === "zh" ? "zh-CN" : "en-US";
@@ -699,7 +744,8 @@
         )
         .join("");
 
-      const list = getLessons().filter((l) => state.stageFilter === 0 || l.stage === state.stageFilter);
+      const allLessons = getLessons();
+      const list = allLessons.filter((l) => state.stageFilter === 0 || l.stage === state.stageFilter);
       const unlockedList = state.unlocked[state.lang];
       const completedList = state.completed[state.lang];
 
@@ -714,10 +760,10 @@
                  onclick="${isUnlocked ? `selectLesson(${lesson.id})` : ""}">
               <div class="lesson-item-top">
                 <span>Bài ${lesson.id} · ${statusIcon}</span>
-                <span>${lesson.level.split("·")[0].trim()}</span>
+                <span>${(lesson.level || "").split("·")[0].trim()}</span>
               </div>
               <div class="lesson-item-title">${lesson.title}</div>
-              <div class="lesson-item-sub">${lesson.subtitle}</div>
+              <div class="lesson-item-sub">${lesson.subtitle || ""}</div>
             </div>
           `;
         })
@@ -744,10 +790,7 @@
 
     function renderWorkspace() {
       const lesson = getCurrentLesson();
-      if (!lesson) {
-        document.getElementById("workspace").innerHTML = "<p>Không tìm thấy dữ liệu bài học. Hãy kiểm tra thư mục data/.</p>";
-        return;
-      }
+      if (!lesson) return;
 
       const stepLabels = [
         "1. Từ vựng & Loa",
@@ -759,10 +802,10 @@
 
       document.getElementById("workspace").innerHTML = `
         <div class="lesson-header">
-          <span class="badge">${lesson.level}</span>
+          <span class="badge">${lesson.level || ""}</span>
           <h2>Bài ${lesson.id}: ${lesson.title}</h2>
-          <div class="sub-text">${lesson.subtitle}</div>
-          <div class="prereq-note">🔗 Liên kết giáo án: ${lesson.prereq}</div>
+          <div class="sub-text">${lesson.subtitle || ""}</div>
+          <div class="prereq-note">🔗 Liên kết giáo án: ${lesson.prereq || "Tiếp nối bài trước"}</div>
         </div>
 
         <div class="steps-nav">
@@ -797,7 +840,7 @@
     }
 
     function renderStep1Vocab(container, lesson) {
-      container.innerHTML = lesson.vocab
+      container.innerHTML = (lesson.vocab || [])
         .map((item) => {
           const phonetic = state.lang === "zh" ? item.pinyin : item.ipa;
           return `
@@ -805,16 +848,16 @@
               <div class="vocab-top">
                 <div>
                   <span class="vocab-word">${item.word}</span>
-                  <span class="vocab-phonetic">${phonetic}</span>
+                  <span class="vocab-phonetic">${phonetic || ""}</span>
                   <div class="sub-text"><strong>Nghĩa:</strong> ${item.meaning}</div>
                 </div>
                 <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                  <button class="btn btn-primary" onclick="speakText('${item.word.replace(/'/g, "\\'")}', 1.0)">🔊 Nghe (1.0x)</button>
-                  <button class="btn btn-soft" onclick="speakText('${item.word.replace(/'/g, "\\'")}', 0.65)">🐢 Chậm (0.65x)</button>
+                  <button class="btn btn-primary" onclick="speakText('${String(item.word).replace(/'/g, "\\'")}', 1.0)">🔊 Nghe (1.0x)</button>
+                  <button class="btn btn-soft" onclick="speakText('${String(item.word).replace(/'/g, "\\'")}', 0.65)">🐢 Chậm (0.65x)</button>
                 </div>
               </div>
               <div class="tip-box">
-                <strong>💡 Mẹo phát âm cho người Việt:</strong> ${item.tip}
+                <strong>💡 Mẹo phát âm cho người Việt:</strong> ${item.tip || ""}
               </div>
             </div>
           `;
@@ -823,7 +866,7 @@
     }
 
     function renderStep2Grammar(container, lesson) {
-      const g = lesson.grammar;
+      const g = lesson.grammar || { formula: "", explanation: "", tiles: [], answer: "" };
       container.innerHTML = `
         <div class="card">
           <div class="formula-box">📐 Công thức cốt lõi: ${g.formula}</div>
@@ -833,16 +876,16 @@
           <h3>🧩 Bài tập ghép từ thành câu hoàn chỉnh</h3>
           <p class="sub-text">Chạm vào các thẻ từ để ghép câu đúng:</p>
           <div id="tile-bank" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-            ${g.tiles
+            ${(g.tiles || [])
               .map(
                 (t, i) =>
-                  `<button class="tile" id="bank-tile-${i}" onclick="pickTile('${t.replace(/'/g, "\\'")}', ${i})">${t}</button>`
+                  `<button class="tile" id="bank-tile-${i}" onclick="pickTile('${String(t).replace(/'/g, "\\'")}', ${i})">${t}</button>`
               )
               .join("")}
           </div>
           <div class="tiles-area" id="chosen-area"></div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="checkGrammarSentence('${g.answer.replace(/'/g, "\\'")}')">Kiểm tra câu</button>
+            <button class="btn btn-primary" onclick="checkGrammarSentence('${String(g.answer).replace(/'/g, "\\'")}')">Kiểm tra câu</button>
             <button class="btn btn-soft" onclick="resetGrammarTiles()">Làm lại</button>
           </div>
           <div id="grammar-feedback"></div>
@@ -882,7 +925,7 @@
 
     function checkGrammarSentence(expected) {
       const joinChar = state.lang === "zh" ? "" : " ";
-      const built = window._chosenTiles.map((x) => x.word).join(joinChar).replace(/\s+([.,!?])/g, "$1").trim();
+      const built = (window._chosenTiles || []).map((x) => x.word).join(joinChar).replace(/\s+([.,!?])/g, "$1").trim();
       const fb = document.getElementById("grammar-feedback");
       if (built.replace(/\s+/g, " ").toLowerCase() === expected.replace(/\s+/g, " ").toLowerCase()) {
         addXp(15);
@@ -894,7 +937,8 @@
     }
 
     function renderStep3ListenSpeak(container, lesson) {
-      const encodedLines = encodeURIComponent(JSON.stringify(lesson.dialogue));
+      const lines = lesson.dialogue || [];
+      const encodedLines = encodeURIComponent(JSON.stringify(lines));
       container.innerHTML = `
         <div class="card">
           <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
@@ -905,18 +949,18 @@
               <button class="btn btn-soft" onclick="toggleMeaning()">${state.showMeaning ? "Ẩn" : "Hiện"} nghĩa Việt</button>
             </div>
           </div>
-          ${lesson.dialogue
+          ${lines
             .map((d, i) => {
               const phon = state.lang === "zh" ? d.pinyin : d.ipa;
               return `
                 <div class="dialogue-line">
-                  <div class="speaker">${d.speaker}</div>
-                  <div class="target-text">${d.target}</div>
-                  <div class="sub-text ${state.showPhonetic ? "" : "hidden-text"}">${phon}</div>
-                  <div class="sub-text ${state.showMeaning ? "" : "hidden-text"}">🇻🇳 ${d.vi}</div>
+                  <div class="speaker">${d.speaker || ""}</div>
+                  <div class="target-text">${d.target || ""}</div>
+                  <div class="sub-text ${state.showPhonetic ? "" : "hidden-text"}">${phon || ""}</div>
+                  <div class="sub-text ${state.showMeaning ? "" : "hidden-text"}">🇻🇳 ${d.vi || ""}</div>
                   <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
-                    <button class="btn btn-soft" onclick="speakText('${d.target.replace(/'/g, "\\'")}', 1.0)">🔊 Nghe câu</button>
-                    <button class="btn btn-primary" onclick="startShadowing(${i}, '${d.target.replace(/'/g, "\\'")}')">🎤 Luyện nói</button>
+                    <button class="btn btn-soft" onclick="speakText('${String(d.target || "").replace(/'/g, "\\'")}', 1.0)">🔊 Nghe câu</button>
+                    <button class="btn btn-primary" onclick="startShadowing(${i}, '${String(d.target || "").replace(/'/g, "\\'")}')">🎤 Luyện nói</button>
                   </div>
                   <div id="shadow-result-${i}" style="margin-top:6px;"></div>
                 </div>
@@ -949,7 +993,7 @@
         const chips = tokens
           .map((tok, idx) => `<span class="word-chip ${idx % 4 === 3 ? "word-err" : "word-ok"}">${tok}</span>`)
           .join("");
-        resEl.innerHTML = `<div class="sub-text"><strong>Kết quả mô phỏng chấm âm:</strong> ${chips}</div>`;
+        resEl.innerHTML = `<div class="sub-text"><strong>Kết quả luyện nói:</strong> ${chips}</div>`;
         addXp(10);
         return;
       }
@@ -992,18 +1036,19 @@
     }
 
     function renderStep4ReadWrite(container, lesson) {
-      const r = lesson.reading;
+      const r = lesson.reading || { title: "", text: "", question: "", options: [], correctIndex: 0 };
       const rPhon = state.lang === "zh" ? r.pinyin : r.ipa;
+      const charToWrite = getWritingChar(lesson);
 
       const writingBlock =
         state.lang === "zh"
           ? `
             <div class="card">
-              <h3>✍️ Tô nét chữ Hán chuẩn bút thuận: "${lesson.writingChar}"</h3>
+              <h3>✍️ Tô nét chữ Hán chuẩn bút thuận: "${charToWrite}"</h3>
               <p class="sub-text">Dùng ngón tay hoặc chuột tô trực tiếp lên ô Điền Tự.</p>
               <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:8px;">
-                <button class="btn btn-primary" onclick="animateHanzi('${lesson.writingChar}')">▶ Xem nét mẫu</button>
-                <button class="btn btn-accent" onclick="quizHanzi('${lesson.writingChar}')">✏️ Tự tô nét</button>
+                <button class="btn btn-primary" onclick="animateHanzi('${charToWrite}')">▶ Xem nét mẫu</button>
+                <button class="btn btn-accent" onclick="quizHanzi('${charToWrite}')">✏️ Tự tô nét</button>
                 <button class="btn btn-soft" onclick="clearHanziCanvas()">🧹 Xóa nét</button>
               </div>
               <div class="tian-zi-ge">
@@ -1018,13 +1063,13 @@
               <h3>✍️ Nghe & Viết chính tả (Dictation)</h3>
               <p class="sub-text">Nghe từ vựng và gõ chính xác vào ô bên dưới:</p>
               <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
-                <button class="btn btn-primary" onclick="speakText('${lesson.dictationTarget}', 0.85)">🔊 Nghe từ</button>
-                <button class="btn btn-soft" onclick="showDictationHint('${lesson.dictationTarget}')">💡 Gợi ý</button>
+                <button class="btn btn-primary" onclick="speakText('${String(lesson.dictationTarget || "").replace(/'/g, "\\'")}', 0.85)">🔊 Nghe từ</button>
+                <button class="btn btn-soft" onclick="showDictationHint('${String(lesson.dictationTarget || "").replace(/'/g, "\\'")}')">💡 Gợi ý</button>
               </div>
               <div style="display:flex; gap:8px; flex-wrap:wrap;">
                 <input id="dictation-input" type="text" placeholder="Nhập từ bạn nghe được..."
                        style="padding:9px 12px; border:1px solid var(--border); border-radius:9px; font-size:0.95rem; flex:1; min-width:180px;" />
-                <button class="btn btn-accent" onclick="checkDictation('${lesson.dictationTarget}')">Kiểm tra</button>
+                <button class="btn btn-accent" onclick="checkDictation('${String(lesson.dictationTarget || "").replace(/'/g, "\\'")}')">Kiểm tra</button>
               </div>
               <div id="dictation-feedback"></div>
             </div>
@@ -1032,20 +1077,20 @@
 
       container.innerHTML = `
         <div class="card">
-          <h3>📖 Đọc hiểu: ${r.title}</h3>
-          <div class="target-text">${r.text}</div>
-          <div class="sub-text">${rPhon}</div>
-          <div class="sub-text">🇻🇳 ${r.vi}</div>
+          <h3>📖 Đọc hiểu: ${r.title || ""}</h3>
+          <div class="target-text">${r.text || ""}</div>
+          <div class="sub-text">${rPhon || ""}</div>
+          <div class="sub-text">🇻🇳 ${r.vi || ""}</div>
           <div style="margin-top:8px;">
-            <button class="btn btn-soft" onclick="speakText('${r.text.replace(/'/g, "\\'")}', 0.95)">🔊 Nghe đoạn đọc</button>
+            <button class="btn btn-soft" onclick="speakText('${String(r.text || "").replace(/'/g, "\\'")}', 0.95)">🔊 Nghe đoạn đọc</button>
           </div>
           <div style="margin-top:12px;">
-            <strong>Câu hỏi đọc hiểu:</strong> ${r.question}
+            <strong>Câu hỏi đọc hiểu:</strong> ${r.question || ""}
             <div style="margin-top:8px; display:flex; flex-direction:column; gap:6px;">
-              ${r.options
+              ${(r.options || [])
                 .map(
                   (opt, idx) =>
-                    `<button class="btn btn-soft" style="text-align:left;" onclick="checkReadingAnswer(${idx}, ${r.correctIndex})">${opt}</button>`
+                    `<button class="btn btn-soft" style="text-align:left;" onclick="checkReadingAnswer(${idx}, ${r.correctIndex || 0})">${opt}</button>`
                 )
                 .join("")}
             </div>
@@ -1056,7 +1101,7 @@
       `;
 
       if (state.lang === "zh") {
-        initHanziBoard(lesson.writingChar);
+        initHanziBoard(charToWrite);
       }
     }
 
@@ -1064,37 +1109,20 @@
       const fb = document.getElementById("reading-feedback");
       if (chosen === correct) {
         addXp(15);
-        fb.innerHTML = `<div class="feedback-ok">✅ Đọc hiểu chính xác! (+15 XP)</div>`;
+        fb.innerHTML = `<div class="feedback-ok">✅ Đáp án chính xác! (+15 XP)</div>`;
       } else {
-        fb.innerHTML = `<div class="feedback-err">❌ Chưa đúng, hãy đọc lại đoạn văn và chọn lại nhé.</div>`;
+        fb.innerHTML = `<div class="feedback-err">❌ Chưa đúng, hãy thử chọn lại nhé.</div>`;
       }
     }
-
-    function showDictationHint(word) {
-      document.getElementById("dictation-feedback").innerHTML =
-        `<div class="sub-text" style="margin-top:8px;">💡 Bắt đầu bằng "<strong>${word[0]}</strong>", gồm <strong>${word.length}</strong> chữ cái.</div>`;
-    }
-
-    function checkDictation(expected) {
-      const val = (document.getElementById("dictation-input").value || "").trim().toLowerCase();
-      const fb = document.getElementById("dictation-feedback");
-      if (val === expected.toLowerCase()) {
-        addXp(15);
-        fb.innerHTML = `<div class="feedback-ok">✅ Chính xác! Từ đúng là "${expected}" (+15 XP)</div>`;
-      } else {
-        fb.innerHTML = `<div class="feedback-err">❌ Chưa chính xác. Hãy nghe lại và thử gõ lại nhé!</div>`;
-      }
-    }
-
-    let hanziWriterInstance = null;
 
     function initHanziBoard(char) {
       const targetEl = document.getElementById("hanzi-target");
-      const statusEl = document.getElementById("hanzi-status");
-      if (!targetEl) return;
+      const canvas = document.getElementById("draw-canvas");
+      if (!targetEl || !canvas) return;
       targetEl.innerHTML = "";
+      hanziWriterInstance = null;
 
-      if (window.HanziWriter) {
+      if (typeof HanziWriter !== "undefined") {
         try {
           hanziWriterInstance = HanziWriter.create("hanzi-target", char, {
             width: 240,
@@ -1104,21 +1132,15 @@
             strokeAnimationSpeed: 1,
             delayBetweenStrokes: 250
           });
-          if (statusEl) statusEl.textContent = "Sẵn sàng luyện tô chữ Hán trên điện thoại.";
-        } catch (err) {
-          if (statusEl) statusEl.textContent = "Đang dùng bảng vẽ cảm ứng trực tiếp.";
+        } catch (_) {
+          hanziWriterInstance = null;
         }
       }
-      setupFallbackCanvas(char, statusEl);
-    }
 
-    function setupFallbackCanvas(char, statusEl) {
-      const canvas = document.getElementById("draw-canvas");
-      if (!canvas) return;
       const ctx = canvas.getContext("2d");
       let drawing = false;
 
-      const getPos = (e) => {
+      function getPos(e) {
         const rect = canvas.getBoundingClientRect();
         const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
@@ -1126,96 +1148,104 @@
           x: ((clientX - rect.left) / rect.width) * canvas.width,
           y: ((clientY - rect.top) / rect.height) * canvas.height
         };
-      };
+      }
 
-      const startDraw = (e) => {
+      function startDraw(e) {
         e.preventDefault();
         drawing = true;
         const pos = getPos(e);
         ctx.beginPath();
         ctx.moveTo(pos.x, pos.y);
-        ctx.lineWidth = 8;
-        ctx.lineCap = "round";
-        ctx.strokeStyle = "#1d4ed8";
-      };
+      }
 
-      const moveDraw = (e) => {
+      function moveDraw(e) {
         if (!drawing) return;
         e.preventDefault();
         const pos = getPos(e);
+        ctx.lineWidth = 6;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "#1d4ed8";
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
-      };
+      }
 
-      const endDraw = () => {
-        if (drawing) {
-          drawing = false;
-          ctx.closePath();
-          if (statusEl) statusEl.textContent = `Đã ghi nhận nét tô chữ "${char}".`;
-        }
-      };
+      function endDraw() {
+        drawing = false;
+      }
 
       canvas.onmousedown = startDraw;
       canvas.onmousemove = moveDraw;
-      window.addEventListener("mouseup", endDraw);
+      canvas.onmouseup = endDraw;
+      canvas.onmouseleave = endDraw;
       canvas.ontouchstart = startDraw;
       canvas.ontouchmove = moveDraw;
       canvas.ontouchend = endDraw;
     }
 
     function animateHanzi(char) {
-      if (hanziWriterInstance && typeof hanziWriterInstance.animateCharacter === "function") {
+      if (hanziWriterInstance) {
         hanziWriterInstance.animateCharacter();
       } else {
-        const canvas = document.getElementById("draw-canvas");
-        const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.save();
-        ctx.font = "140px 'Noto Sans CJK SC', serif";
-        ctx.fillStyle = "rgba(29, 78, 216, 0.22)";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(char, canvas.width / 2, canvas.height / 2 + 6);
-        ctx.restore();
+        document.getElementById("hanzi-status").textContent = `Chữ mẫu: ${char}`;
       }
     }
 
     function quizHanzi(char) {
-      if (hanziWriterInstance && typeof hanziWriterInstance.quiz === "function") {
+      if (hanziWriterInstance) {
         hanziWriterInstance.quiz({
           onComplete: () => {
             addXp(20);
-            document.getElementById("hanzi-status").innerHTML =
-              `<span class="word-chip word-ok">✅ Hoàn thành tô đúng nét chữ "${char}" (+20 XP)!</span>`;
+            document.getElementById("hanzi-status").innerHTML = `<span style="color:var(--success); font-weight:700;">✅ Hoàn thành tô nét "${char}" (+20 XP)</span>`;
           }
         });
       } else {
-        addXp(10);
-        document.getElementById("hanzi-status").innerHTML =
-          `<span class="word-chip word-ok">✅ Đã ghi nhận luyện viết chữ "${char}" (+10 XP)!</span>`;
+        document.getElementById("hanzi-status").textContent = `Hãy tô theo nét chữ "${char}" trên khung.`;
       }
     }
 
     function clearHanziCanvas() {
       const canvas = document.getElementById("draw-canvas");
-      if (canvas) {
-        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById("hanzi-status").textContent = "";
+    }
+
+    function showDictationHint(target) {
+      const hint = target ? `${target[0]}${" _".repeat(Math.max(0, target.length - 1))}` : "";
+      document.getElementById("dictation-feedback").innerHTML = `<div class="tip-box">Gợi ý: ${hint}</div>`;
+    }
+
+    function checkDictation(target) {
+      const val = (document.getElementById("dictation-input").value || "").trim();
+      const fb = document.getElementById("dictation-feedback");
+      if (val.toLowerCase() === String(target).toLowerCase()) {
+        addXp(15);
+        fb.innerHTML = `<div class="feedback-ok">✅ Chính xác! Từ cần viết là "${target}" (+15 XP)</div>`;
+      } else {
+        fb.innerHTML = `<div class="feedback-err">❌ Chưa đúng, đáp án là "${target}".</div>`;
       }
-      const statusEl = document.getElementById("hanzi-status");
-      if (statusEl) statusEl.textContent = "Đã xóa nét vẽ.";
     }
 
     function renderStep5Quiz(container, lesson) {
-      const q = lesson.quiz;
+      const q = lesson.quiz || {
+        question: `Từ vựng trọng tâm của Bài ${lesson.id} là gì?`,
+        options: [
+          (lesson.vocab && lesson.vocab[0] && lesson.vocab[0].meaning) || "Chào hỏi",
+          "Phương án khác"
+        ],
+        correctIndex: 0
+      };
+
       container.innerHTML = `
         <div class="card">
-          <h3>🎯 Tổng kết bài & Mở khóa bài tiếp theo</h3>
+          <h3>🎯 Tổng kết & Kiểm tra cuối bài</h3>
           <p><strong>Câu hỏi:</strong> ${q.question}</p>
           <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
-            ${q.options
+            ${(q.options || [])
               .map(
                 (opt, idx) =>
-                  `<button class="btn btn-soft" style="text-align:left; padding:10px 14px;" onclick="submitLessonQuiz(${idx}, ${q.correctIndex}, ${lesson.id})">${opt}</button>`
+                  `<button class="btn btn-soft" style="text-align:left;" onclick="completeLessonQuiz(${idx}, ${q.correctIndex || 0}, ${lesson.id})">${opt}</button>`
               )
               .join("")}
           </div>
@@ -1224,47 +1254,37 @@
       `;
     }
 
-    function submitLessonQuiz(chosen, correct, lessonId) {
+    function completeLessonQuiz(chosen, correct, lessonId) {
       const fb = document.getElementById("quiz-feedback");
-      const lang = state.lang;
-      const list = getLessons();
-
       if (chosen !== correct) {
-        fb.innerHTML = `<div class="feedback-err">❌ Chưa chính xác! Hãy xem lại nội dung bài và chọn lại nhé.</div>`;
+        fb.innerHTML = `<div class="feedback-err">❌ Chưa đúng, thử lại nhé!</div>`;
         return;
       }
 
-      if (!state.completed[lang].includes(lessonId)) {
-        state.completed[lang].push(lessonId);
-        addXp(30);
-        state.streak += 1;
-        document.getElementById("streak-display").textContent = `🔥 ${state.streak} ngày`;
+      if (!state.completed[state.lang].includes(lessonId)) {
+        state.completed[state.lang].push(lessonId);
       }
 
-      const nextLesson = list.find((l) => l.id === lessonId + 1);
-      let nextHtml = "";
-      if (nextLesson) {
-        if (!state.unlocked[lang].includes(nextLesson.id)) {
-          state.unlocked[lang].push(nextLesson.id);
-        }
-        nextHtml = `
-          <div style="margin-top:10px;">
-            <button class="btn btn-primary" onclick="selectLesson(${nextLesson.id})">
-              🔓 Bài ${nextLesson.id}: ${nextLesson.title} →
-            </button>
-          </div>
-        `;
-      } else {
-        nextHtml = `<div style="margin-top:10px;">🎉 Bạn đã hoàn thành toàn bộ 50 bài của lộ trình này!</div>`;
+      const lessons = getLessons();
+      const idx = lessons.findIndex((l) => l.id === lessonId);
+      const nextLesson = lessons[idx + 1];
+      if (nextLesson && !state.unlocked[state.lang].includes(nextLesson.id)) {
+        state.unlocked[state.lang].push(nextLesson.id);
       }
+
+      addXp(25);
+      renderSidebar();
 
       fb.innerHTML = `
         <div class="feedback-ok">
-          ✅ Xuất sắc! Bạn đã hoàn thành Bài ${lessonId} (+30 XP).
-          ${nextHtml}
+          🎉 Hoàn thành Bài ${lessonId}! (+25 XP)
+          ${
+            nextLesson
+              ? `<div style="margin-top:8px;"><button class="btn btn-primary" onclick="selectLesson(${nextLesson.id})">Chuyển sang Bài ${nextLesson.id} →</button></div>`
+              : ""
+          }
         </div>
       `;
-      renderSidebar();
     }
 
     renderSidebar();
