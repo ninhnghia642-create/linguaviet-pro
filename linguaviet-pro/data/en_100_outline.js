@@ -1,306 +1,189 @@
 // data/en_100_outline.js
-// Kho 50 bài giảng Tiếng Anh liên kết chặt chẽ từ CEFR A1 -> B2 cho người Việt
+// Kho 50 bài Tiếng Anh liên kết chặt chẽ từ CEFR A1 -> B2 (đời sống hằng ngày & công việc công ty)
+// Mỗi bài có bộ từ vựng, ngữ pháp, hội thoại, đọc hiểu & chính tả luyện viết riêng biệt
 
-const EN_OUTLINE_50 = [
+const EN_DETAILED_LESSONS = [
   {
     id: 1,
     stage: 1,
-    level: "CEFR A1 · Chặng 1: Phát âm chuẩn & Giao tiếp nền tảng",
-    title: "Greetings, Politeness & First Impressions",
-    subtitle: "Ngữ điệu lên xuống, nối âm cơ bản và chào hỏi lịch sự",
+    level: "CEFR A1 · Chặng 1: Phát âm & Giao tiếp mở đầu",
+    title: "Greetings, Introductions & Politeness",
+    subtitle: "Chào hỏi, giới thiệu tên và phép lịch sự trong giao tiếp hằng ngày",
     prereq: "Bài mở đầu (Không cần kiến thức nền)",
     vocab: [
-      {
-        word: "Hello",
-        ipa: "/həˈləʊ/",
-        meaning: "Xin chào",
-        tip: "Trọng âm rơi vào âm tiết thứ hai '-lo'. Âm đầu /h/ thở nhẹ, không đọc nặng thành 'hê-lô' đều đều."
-      },
-      {
-        word: "Thank you",
-        ipa: "/ˈθæŋk juː/",
-        meaning: "Cảm ơn bạn",
-        tip: "Đặt đầu lưỡi nhẹ giữa hai răng trên và dưới khi đọc /θ/, thổi hơi ra; nối nhẹ 'thank you' thành /ˈθæŋkjuː/."
-      },
-      {
-        word: "Nice to meet you",
-        ipa: "/naɪs tə miːt juː/",
-        meaning: "Rất vui được gặp bạn",
-        tip: "Từ 'to' thường đọc yếu thành /tə/, âm /iː/ ở 'meet' kéo dài nhẹ."
-      },
-      {
-        word: "Excuse me",
-        ipa: "/ɪkˈskjuːz miː/",
-        meaning: "Xin lỗi (khi làm phiền / hỏi đường / thu hút chú ý)",
-        tip: "Dùng khi muốn hỏi ai đó hoặc đi ngang qua; trọng âm rơi vào 'skjuːz'."
-      },
-      {
-        word: "Morning",
-        ipa: "/ˈmɔːnɪŋ/",
-        meaning: "Buổi sáng",
-        tip: "Trọng âm ở âm đầu 'mor-', đuôi '-ing' đọc /ɪŋ/ gọn, không nhấn mạnh."
-      }
+      { word: "Hello", ipa: "/həˈləʊ/", meaning: "Xin chào", tip: "Nhấn trọng âm vào âm tiết thứ hai '-loʊ', môi tròn nhẹ ở cuối." },
+      { word: "Thank you", ipa: "/ˈθæŋk juː/", meaning: "Cảm ơn bạn", tip: "Đặt đầu lưỡi nhẹ giữa hai hàm răng khi đọc 'th', bật hơi 'k' rõ." },
+      { word: "Nice to meet you", ipa: "/naɪs tə miːt juː/", meaning: "Rất vui được gặp bạn", tip: "Nối âm 'meet you' đọc tự nhiên gần giống /miːtʃuː/." },
+      { word: "Excuse me", ipa: "/ɪkˈskjuːz miː/", meaning: "Xin lỗi / Làm phiền", tip: "Dùng khi hỏi đường, chen ngang lịch sự hoặc gọi nhân viên/đồng nghiệp." },
+      { word: "Colleague", ipa: "/ˈkɒliːɡ/", meaning: "Đồng nghiệp", tip: "Nhấn âm tiết đầu 'col-', âm cuối '-gue' là âm /ɡ/." }
     ],
     grammar: {
-      formula: "Good morning / Hello + [Name].  |  Nice to meet you.",
-      explanation: "Trong giao tiếp hằng ngày và nơi làm việc, dùng 'Good morning' vào buổi sáng và 'Nice to meet you' khi gặp ai lần đầu.",
-      tiles: ["Hello,", "nice", "to", "meet", "you."],
-      answer: "Hello, nice to meet you."
+      formula: "Hello, I am + [Name].  |  Nice to meet you.",
+      explanation: "Dùng 'Hello, I am...' để tự giới thiệu tên rõ ràng và 'Excuse me' khi cần mở lời lịch sự.",
+      tiles: ["Hello,", "I", "am", "Minh.", "Nice", "to", "meet", "you."],
+      answer: "Hello, I am Minh. Nice to meet you."
     },
     dialogue: [
-      {
-        speaker: "Linh",
-        target: "Good morning! Nice to meet you.",
-        ipa: "/ɡʊd ˈmɔːnɪŋ! naɪs tə miːt juː./",
-        vi: "Chào buổi sáng! Rất vui được gặp bạn."
-      },
-      {
-        speaker: "David",
-        target: "Hello Linh! Nice to meet you too.",
-        ipa: "/həˈləʊ lɪn! naɪs tə miːt juː tuː./",
-        vi: "Chào Linh! Mình cũng rất vui được gặp bạn."
-      },
-      {
-        speaker: "Linh",
-        target: "Thank you, David.",
-        ipa: "/ˈθæŋk juː, ˈdeɪvɪd./",
-        vi: "Cảm ơn David."
-      }
+      { speaker: "Minh", target: "Hello! I am Minh. Nice to meet you.", ipa: "/həˈləʊ! aɪ æm mɪn. naɪs tə miːt juː./", vi: "Xin chào! Tôi là Minh. Rất vui được gặp bạn." },
+      { speaker: "Sarah", target: "Hi Minh! I am Sarah. Welcome to the team.", ipa: "/haɪ mɪn! aɪ æm ˈsærə. ˈwelkəm tə ðə tiːm./", vi: "Chào Minh! Mình là Sarah. Chào mừng bạn vào nhóm." },
+      { speaker: "Minh", target: "Thank you, Sarah!", ipa: "/ˈθæŋk juː, ˈsærə!", vi: "Cảm ơn Sarah nhé!" }
     ],
     reading: {
-      title: "A Friendly Welcome at the Office",
-      text: "Good morning! Excuse me, I am Linh. Hello David, nice to meet you. Thank you for your help today.",
-      ipa: "/ɡʊd ˈmɔːnɪŋ! ɪkˈskjuːz miː, aɪ æm lɪn. həˈləʊ ˈdeɪvɪd, naɪs tə miːt juː. ˈθæŋk juː fɔː jɔː help təˈdeɪ./",
-      vi: "Chào buổi sáng! Xin lỗi, mình là Linh. Chào David, rất vui được gặp bạn. Cảm ơn bạn đã giúp đỡ hôm nay.",
-      question: "Linh dùng cụm từ nào để thu hút sự chú ý lịch sự ban đầu?",
-      options: ["Thank you", "Excuse me", "Good morning"],
-      correctIndex: 1
+      title: "First Day at the Office",
+      text: "Hello, my name is Linh. Excuse me, is this the meeting room? Thank you for your help!",
+      ipa: "/həˈləʊ, maɪ neɪm ɪz lɪn. ɪkˈskjuːz miː, ɪz ðɪs ðə ˈmiːtɪŋ ruːm? ˈθæŋk juː fɔːr jɔːr help!/",
+      vi: "Xin chào, tên tôi là Linh. Xin lỗi, đây có phải phòng họp không? Cảm ơn bạn đã giúp đỡ!",
+      question: "What does Linh ask using 'Excuse me'?",
+      options: ["If it is the meeting room", "What time it is", "Where to buy coffee"],
+      correctIndex: 0
     },
-    dictationTarget: "thank you",
+    dictationTarget: "hello",
     quiz: {
-      question: "Khi muốn hỏi đường hoặc làm phiền người khác một chút, bạn dùng cụm nào?",
-      options: ["Excuse me", "Good night", "See you"],
+      question: "Câu nào dùng để mở lời lịch sự khi muốn hỏi thăm ai đó?",
+      options: ["Excuse me", "Goodbye", "Never mind"],
       correctIndex: 0
     }
   },
   {
     id: 2,
     stage: 1,
-    level: "CEFR A1 · Chặng 1: Phát âm chuẩn & Giao tiếp nền tảng",
-    title: "Introducing Yourself, Nationality & Job",
-    subtitle: "Kế thừa chào hỏi từ Bài 1 để giới thiệu tên, quốc tịch và công việc",
-    prereq: "Nắm được cách chào hỏi và nối âm cơ bản ở Bài 1",
+    level: "CEFR A1 · Chặng 1: Phát âm & Giao tiếp mở đầu",
+    title: "Jobs, Roles & Daily Workplaces",
+    subtitle: "Kế thừa chào hỏi từ Bài 1 để nói về nghề nghiệp và nơi làm việc",
+    prereq: "Nắm được cách chào hỏi & giới thiệu tên ở Bài 1",
     vocab: [
-      {
-        word: "I am",
-        ipa: "/aɪ æm/ · /aɪm/",
-        meaning: "Tôi là",
-        tip: "Trong nói tự nhiên thường rút gọn thành 'I'm' /aɪm/, đọc liền mạch không ngắt."
-      },
-      {
-        word: "Vietnamese",
-        ipa: "/ˌviːetnəˈmiːz/",
-        meaning: "Người Việt Nam / Tiếng Việt",
-        tip: "Trọng âm chính rơi vào âm tiết cuối '-nese' /ˈmiːz/, âm /z/ rung thanh quản ở cuối."
-      },
-      {
-        word: "Teacher",
-        ipa: "/ˈtiːtʃə/",
-        meaning: "Giáo viên",
-        tip: "Âm /tʃ/ bật hơi ngắn giống 'ch', trọng âm rơi vào âm đầu 'tea-'."
-      },
-      {
-        word: "Student",
-        ipa: "/ˈstjuːdənt/",
-        meaning: "Học sinh / Sinh viên",
-        tip: "Đọc rõ /stj/ hoặc /stʃ/, trọng âm ở âm đầu 'stu-'."
-      },
-      {
-        word: "Work",
-        ipa: "/wɜːk/",
-        meaning: "Làm việc / Công việc",
-        tip: "Âm nguyên âm dài /ɜː/ cong nhẹ lưỡi, âm cuối /k/ bật nhẹ không đọc thành 'quớc'."
-      }
+      { word: "Office", ipa: "/ˈɒfɪs/", meaning: "Văn phòng", tip: "Nhấn âm đầu 'of-', âm cuối đọc nhẹ như '-is'." },
+      { word: "Manager", ipa: "/ˈmænɪdʒər/", meaning: "Quản lý / Trưởng bộ phận", tip: "Nhấn âm đầu 'man-', âm '-dʒ-' đọc như 'ch' nhẹ." },
+      { word: "Designer", ipa: "/dɪˈzaɪnər/", meaning: "Nhà thiết kế", tip: "Nhấn âm thứ hai '-sign-', nguyên âm đôi /aɪ/ rõ." },
+      { word: "Engineer", ipa: "/ˌendʒɪˈnɪər/", meaning: "Kỹ sư", tip: "Nhấn trọng âm cuối '-neer' kéo dài nhẹ." },
+      { word: "Work", ipa: "/wɜːrk/", meaning: "Làm việc / Công việc", tip: "Tròn môi ở 'w', cong lưỡi nhẹ ở nguyên âm /ɜːr/." }
     ],
     grammar: {
-      formula: "I am (I'm) + a/an + [Job]  |  I am from + [Country / City]",
-      explanation: "Dùng 'I'm' để giới thiệu tên, quốc tịch hoặc nghề nghiệp; nhớ dùng mạo từ 'a/an' trước danh từ nghề nghiệp đếm được số ít.",
-      tiles: ["I'm", "a", "teacher", "from", "Vietnam."],
-      answer: "I'm a teacher from Vietnam."
+      formula: "[Subject] + work(s) in + [Place]  |  I am a + [Job title].",
+      explanation: "Với chủ ngữ số ít (he/she/it hoặc tên riêng), động từ thêm '-s' ở thì hiện tại đơn khi nói về công việc hằng ngày.",
+      tiles: ["She", "works", "in", "a", "modern", "office."],
+      answer: "She works in a modern office."
     },
     dialogue: [
-      {
-        speaker: "Minh",
-        target: "Hi, I'm Minh. I'm Vietnamese.",
-        ipa: "/haɪ, aɪm mɪn. aɪm ˌviːetnəˈmiːz./",
-        vi: "Chào bạn, mình là Minh. Mình là người Việt Nam."
-      },
-      {
-        speaker: "Sarah",
-        target: "Nice to meet you, Minh. I'm a teacher.",
-        ipa: "/naɪs tə miːt juː, mɪn. aɪm ə ˈtiːtʃə./",
-        vi: "Rất vui được gặp Minh. Mình là giáo viên."
-      },
-      {
-        speaker: "Minh",
-        target: "Great! I work with students every day.",
-        ipa: "/ɡreɪt! aɪ wɜːk wɪð ˈstjuːdənts ˈevri deɪ./",
-        vi: "Tuyệt! Mình làm việc với học viên mỗi ngày."
-      }
+      { speaker: "David", target: "What do you do, Lan?", ipa: "/wɒt dʊ juː duː, læn?/", vi: "Lan làm nghề gì vậy?" },
+      { speaker: "Lan", target: "I am a designer. I work in the city office.", ipa: "/aɪ æm ə dɪˈzaɪnər. aɪ wɜːrk ɪn ðə ˈsɪti ˈɒfɪs./", vi: "Mình là nhà thiết kế. Mình làm việc ở văn phòng trung tâm." },
+      { speaker: "David", target: "Great! Our manager is in that office too.", ipa: "/ɡreɪt! aʊər ˈmænɪdʒər ɪz ɪn ðæt ˈɒfɪs tuː./", vi: "Tuyệt! Quản lý của bọn mình cũng ở văn phòng đó." }
     ],
     reading: {
-      title: "Meeting New Colleagues",
-      text: "Hello everyone! I'm Minh and I'm from Vietnam. I work as a teacher. Sarah is a teacher too.",
-      ipa: "/həˈləʊ ˈevriwʌn! aɪm mɪn ænd aɪm frɒm ˌviːetnəˈmiːz. aɪ wɜːk æz ə ˈtiːtʃə. ˈsærə ɪz ə ˈtiːtʃə tuː./",
-      vi: "Chào mọi người! Mình là Minh và mình đến từ Việt Nam. Mình làm nghề giáo viên. Sarah cũng là giáo viên.",
-      question: "Nghề nghiệp của Minh và Sarah là gì?",
-      options: ["Students", "Teachers", "Doctors"],
+      title: "Team Roles",
+      text: "Tom is an engineer and Anna is a project manager. They work together every day.",
+      ipa: "/tɒm ɪz ən ˌendʒɪˈnɪər ænd ˈænə ɪz ə ˈprɒdʒekt ˈmænɪdʒər. ðeɪ wɜːrk təˈɡeðər ˈevri deɪ./",
+      vi: "Tom là kỹ sư và Anna là quản lý dự án. Họ làm việc cùng nhau mỗi ngày.",
+      question: "What is Anna's role?",
+      options: ["Engineer", "Project manager", "Receptionist"],
       correctIndex: 1
     },
-    dictationTarget: "student",
+    dictationTarget: "office",
     quiz: {
-      question: "Câu nào giới thiệu nghề nghiệp đúng ngữ pháp?",
-      options: ["I am teacher.", "I'm a teacher.", "I teacher."],
-      correctIndex: 1
+      question: "Từ 'Manager' có nghĩa tiếng Việt là gì?",
+      options: ["Quản lý / Trưởng bộ phận", "Khách hàng", "Học sinh"],
+      correctIndex: 0
     }
   },
   {
     id: 3,
     stage: 1,
-    level: "CEFR A1 · Chặng 1: Phát âm chuẩn & Giao tiếp nền tảng",
+    level: "CEFR A1 · Chặng 1: Phát âm & Giao tiếp mở đầu",
     title: "Numbers, Prices & Ordering Essentials",
-    subtitle: "Kết hợp giới thiệu bản thân với số đếm, giá cả và gọi món/mua sắm",
-    prereq: "Nắm được mẫu câu 'I am / I'm' và từ vựng giới thiệu ở Bài 2",
+    subtitle: "Kết hợp giới thiệu công việc với số đếm, giá tiền và gọi món/đặt mua",
+    prereq: "Nắm được từ vựng nghề nghiệp & nơi làm việc ở Bài 2",
     vocab: [
-      {
-        word: "How much",
-        ipa: "/haʊ mʌtʃ/",
-        meaning: "Bao nhiêu (giá tiền)",
-        tip: "Âm /ʌ/ trong 'much' ngắn, thả lỏng miệng; kết thúc bằng /tʃ/ gọn."
-      },
-      {
-        word: "Dollar",
-        ipa: "/ˈdɒlə/",
-        meaning: "Đô la",
-        tip: "Trọng âm ở âm đầu 'dol-', âm cuối /ə/ nhẹ, không kéo dài."
-      },
-      {
-        word: "Coffee",
-        ipa: "/ˈkɒfi/",
-        meaning: "Cà phê",
-        tip: "Trọng âm rơi vào âm đầu 'cof-', âm /ɒ/ mở miệng vừa phải."
-      },
-      {
-        word: "Please",
-        ipa: "/pliːz/",
-        meaning: "Làm ơn / Vui lòng (dùng khi yêu cầu lịch sự)",
-        tip: "Âm /iː/ kéo dài nhẹ, âm cuối /z/ rung thanh quản rõ ràng."
-      },
-      {
-        word: "Here you are",
-        ipa: "/hɪə juː ɑː/",
-        meaning: "Của bạn đây (khi đưa đồ / trả lời cảm ơn)",
-        tip: "Cụm giao tiếp phản xạ cực kỳ phổ biến khi đưa món đồ cho người khác."
-      }
+      { word: "How much", ipa: "/haʊ mʌtʃ/", meaning: "Bao nhiêu tiền / Bao nhiêu", tip: "Đọc liền mạch 'how much', bật hơi nhẹ âm cuối /tʃ/." },
+      { word: "Price", ipa: "/praɪs/", meaning: "Giá cả", tip: "Bắt đầu bằng /pr/, kết thúc bằng âm xát /s/." },
+      { word: "Coffee", ipa: "/ˈkɒfi/", meaning: "Cà phê", tip: "Nhấn âm đầu 'cof-', âm sau đọc ngắn /i/." },
+      { word: "Order", ipa: "/ˈɔːrdər/", meaning: "Đặt hàng / Gọi món", tip: "Nhấn âm đầu 'or-', cong lưỡi nhẹ ở cuối." },
+      { word: "Receipt", ipa: "/rɪˈsiːt/", meaning: "Hóa đơn / Biên lai", tip: "Chú ý chữ 'p' câm — đọc là /rɪˈsiːt/, âm 't' ở cuối." }
     ],
     grammar: {
-      formula: "How much is this?  |  I'd like + [Item], please.",
-      explanation: "Dùng 'How much is this?' để hỏi giá một món đồ và 'I'd like...' (lịch sự hơn 'I want') để gọi đồ uống hoặc đặt mua.",
-      tiles: ["I'd", "like", "a", "coffee,", "please."],
-      answer: "I'd like a coffee, please."
+      formula: "How much is + [Singular item]?  |  I would like to order + [Item].",
+      explanation: "Dùng 'How much is...' để hỏi giá món đồ số ít và 'I would like to order...' để đặt món lịch sự.",
+      tiles: ["How", "much", "is", "this", "coffee?"],
+      answer: "How much is this coffee?"
     },
     dialogue: [
-      {
-        speaker: "Customer",
-        target: "Excuse me, how much is this coffee?",
-        ipa: "/ɪkˈskjuːz miː, haʊ mʌtʃ ɪz ðɪs ˈkɒfi?/",
-        vi: "Xin lỗi, ly cà phê này bao nhiêu tiền ạ?"
-      },
-      {
-        speaker: "Barista",
-        target: "It's three dollars.",
-        ipa: "/ɪts θriː ˈdɒləz./",
-        vi: "3 đô la ạ."
-      },
-      {
-        speaker: "Customer",
-        target: "I'd like one coffee, please.",
-        ipa: "/aɪd laɪk wʌn ˈkɒfi, pliːz./",
-        vi: "Cho mình một ly cà phê nhé."
-      }
+      { speaker: "Customer", target: "How much is this coffee, please?", ipa: "/haʊ mʌtʃ ɪz ðɪs ˈkɒfi, pliːz?/", vi: "Ly cà phê này bao nhiêu tiền vậy ạ?" },
+      { speaker: "Barista", target: "It is four dollars. Would you like a receipt?", ipa: "/ɪt ɪz fɔːr ˈdɒlərz. wʊd juː laɪk ə rɪˈsiːt?/", vi: "4 đô la ạ. Bạn có cần hóa đơn không?" },
+      { speaker: "Customer", target: "Yes, please. I will order one.", ipa: "/jes, pliːz. aɪ wɪl ˈɔːrdər wʌn./", vi: "Có ạ. Cho mình đặt một ly." }
     ],
     reading: {
-      title: "At the Morning Cafe",
-      text: "I'm a student and I need coffee before class. This coffee is three dollars. Here you are, thank you!",
-      ipa: "/aɪm ə ˈstjuːdənt ænd aɪ niːd ˈkɒfi bɪˈfɔː klɑːs. ðɪs ˈkɒfi ɪz θriː ˈdɒləz. hɪə juː ɑː, ˈθæŋk juː!/",
-      vi: "Mình là sinh viên và mình cần cà phê trước giờ học. Ly cà phê này giá 3 đô. Của bạn đây, cảm ơn nhé!",
-      question: "Ly cà phê có giá bao nhiêu đô la?",
-      options: ["Two dollars", "Three dollars", "Five dollars"],
+      title: "Morning Break",
+      text: "Before work, I buy lunch near the office. The price is eight dollars and I get a receipt.",
+      ipa: "/bɪˈfɔːr wɜːrk, aɪ baɪ lʌntʃ nɪər ði ˈɒfɪs. ðə praɪs ɪz eɪt ˈdɒlərz ænd aɪ ɡet ə rɪˈsiːt./",
+      vi: "Trước giờ làm, tôi mua bữa trưa gần văn phòng. Giá là 8 đô và tôi lấy hóa đơn.",
+      question: "How much is the lunch?",
+      options: ["Four dollars", "Eight dollars", "Ten dollars"],
       correctIndex: 1
     },
-    dictationTarget: "coffee",
+    dictationTarget: "price",
     quiz: {
-      question: "Cách gọi món lịch sự tự nhiên trong tiếng Anh là gì?",
-      options: ["Give me coffee.", "I'd like a coffee, please.", "Coffee is me."],
-      correctIndex: 1
+      question: "Khi muốn hỏi giá một món đồ, bạn bắt đầu câu thế nào?",
+      options: ["How much is...", "Where are you...", "Who is she..."],
+      correctIndex: 0
     }
   }
 ];
 
-// Danh sách chủ đề 47 bài tiếp theo (Bài 4 -> Bài 50) liên kết mạch lạc từ CEFR A1 đến B2
-const EN_CURRICULUM_TOPICS = [
-  "Days, Time & Daily Routines",
-  "Family, Relationships & Personal Interests",
-  "Places, Directions & Getting Around Town",
-  "Eating Out, Ordering Food & Food Preferences",
-  "Shopping for Clothes, Sizes & Polite Requests",
-  "Transportation, Tickets & Commuting",
-  "Weather, Seasons & Weekend Plans",
-  "Health, Common Symptoms & At the Clinic",
-  "Workplace Roles, Departments & Colleagues",
-  "Phone Calls, Messages & Scheduling Meetings",
-  "Renting a Home, Rooms & Living Essentials",
-  "Banking, Currency & Digital Payments",
-  "Travel, Hotel Booking & Check-in/Check-out",
-  "Dining Together, Table Etiquette & Toasts",
-  "Daily Habits, Time Management & Productivity",
-  "Online Shopping, Delivery & Returns",
-  "Sports, Hobbies & Relaxing After Work",
-  "Talking About the Past & Memorable Experiences",
-  "Comparing Options, Reviews & Giving Opinions",
-  "Asking for Favors, Permission & Polite Declines",
-  "Ongoing Actions, Changes & Current Trends",
-  "Job Interviews, Strengths & Career Goals",
-  "Team Meetings, Task Delegation & Progress Updates",
-  "Writing Workplace Emails & Confirming Details",
-  "Customer Service, Feedback & Problem Solving",
-  "Appointments, Rescheduling & Professional Reminders",
-  "Presenting Ideas, Key Figures & Explanations",
-  "Negotiating Prices, Terms & Initial Partnerships",
-  "Cross-Cultural Etiquette & Business Gifts",
-  "City Life, Traffic & Sustainable Living",
-  "Learning Languages Effectively & Self-Study Habits",
-  "Digital Tools, Remote Work & Online Collaboration",
-  "Personal Finance, Smart Spending & Saving",
-  "Healthy Eating, Nutrition & Work-Life Balance",
-  "Cultural Experiences, Festivals & Local Traditions",
-  "Resolving Disagreements, Active Listening & Empathy",
-  "Project Planning, Milestones & Managing Risks",
-  "Performance Reviews & Constructive Feedback",
-  "Entrepreneurship, Business Ideas & Markets",
-  "Media, News & Balanced Perspectives",
-  "Career Growth, Soft Skills & Adaptability",
-  "Working with International Teams",
-  "Debating Viewpoints, Evidence & Persuasion",
-  "Reviewing Progress, Key Takeaways & Next Steps"
+const EN_TOPIC_BANK = [
+  { topic: "Days, Dates & Daily Schedules", words: [["Schedule","ˈʃedjuːl","Lịch trình"],["Monday","ˈmʌndeɪ","Thứ Hai"],["Morning","ˈmɔːrnɪŋ","Buổi sáng"],["Deadline","ˈdedlaɪn","Hạn chót"],["Early","ˈɜːrli","Sớm"]], word: "schedule", sent: ["We","check","the","schedule","every","morning."], ans: "We check the schedule every morning." },
+  { topic: "Family, Relatives & Personal Interests", words: [["Family","ˈfæməli","Gia đình"],["Hobby","ˈhɒbi","Sở thích"],["Parents","ˈpeərənts","Bố mẹ"],["Travel","ˈtrævəl","Du lịch"],["Reading","ˈriːdɪŋ","Đọc sách"]], word: "family", sent: ["My","family","loves","travel","on","weekends."], ans: "My family loves travel on weekends." },
+  { topic: "Places, Directions & Getting Around Town", words: [["Station","ˈsteɪʃn","Nhà ga / Trạm"],["Turn left","tɜːrn left","Rẽ trái"],["Near","nɪər","Gần"],["Street","striːt","Đường phố"],["Map","mæp","Bản đồ"]], word: "station", sent: ["Turn","left","near","the","train","station."], ans: "Turn left near the train station." },
+  { topic: "Dining Out, Ordering Food & Tastes", words: [["Menu","ˈmenjuː","Thực đơn"],["Delicious","dɪˈlɪʃəs","Ngon miệng"],["Spicy","ˈspaɪsi","Cay"],["Waiter","ˈweɪtər","Nhân viên phục vụ"],["Bill","bɪl","Hóa đơn tính tiền"]], word: "delicious", sent: ["The","noodles","are","very","delicious."], ans: "The noodles are very delicious." },
+  { topic: "Shopping for Clothes, Sizes & Fitting", words: [["Size","saɪz","Kích cỡ"],["Shirt","ʃɜːrt","Áo sơ mi"],["Discount","ˈdɪskaʊnt","Giảm giá"],["Fit","fɪt","Vừa vặn"],["Cashier","kæˈʃɪər","Thu ngân"]], word: "discount", sent: ["This","shirt","has","a","nice","discount."], ans: "This shirt has a nice discount." },
+  { topic: "Transportation, Tickets & Commuting", words: [["Commute","kəˈmjuːt","Đi lại hằng ngày"],["Ticket","ˈtɪkɪt","Vé"],["Subway","ˈsʌbweɪ","Tàu điện ngầm"],["Delay","dɪˈleɪ","Trễ / Hoãn"],["Platform","ˈplætfɔːrm","Sân ga / Ke ga"]], word: "commute", sent: ["My","daily","commute","takes","twenty","minutes."], ans: "My daily commute takes twenty minutes." },
+  { topic: "Weather, Seasons & Weekend Plans", words: [["Weather","ˈweðər","Thời tiết"],["Sunny","ˈsʌni","Nắng đẹp"],["Rainy","ˈreɪni","Mưa"],["Forecast","ˈfɔːrkæst","Dự báo"],["Weekend","ˌwiːkˈend","Cuối tuần"]], word: "weather", sent: ["The","weather","is","sunny","this","weekend."], ans: "The weather is sunny this weekend." },
+  { topic: "Health, Symptoms & Visiting a Clinic", words: [["Healthy","ˈhelθi","Khỏe mạnh"],["Headache","ˈhedeɪk","Đau đầu"],["Clinic","ˈklɪnɪk","Phòng khám"],["Medicine","ˈmedsn","Thuốc"],["Rest","rest","Nghỉ ngơi"]], word: "healthy", sent: ["Get","enough","rest","to","stay","healthy."], ans: "Get enough rest to stay healthy." },
+  { topic: "Departments, Colleagues & Team Culture", words: [["Department","dɪˈpɑːrtmənt","Phòng ban"],["Support","səˈpɔːrt","Hỗ trợ"],["Teamwork","ˈtiːmwɜːrk","Làm việc nhóm"],["HR","ˌeɪtʃ ˈɑːr","Nhân sự"],["Finance","ˈfaɪnæns","Tài chính"]], word: "department", sent: ["Our","department","values","strong","teamwork."], ans: "Our department values strong teamwork." },
+  { topic: "Working Hours, Attendance & Leave Requests", words: [["Shift","ʃɪft","Ca làm việc"],["Overtime","ˈəʊvərtaɪm","Tăng ca"],["Leave","liːv","Nghỉ phép"],["On time","ɒn taɪm","Đúng giờ"],["Attendance","əˈtendəns","Chấm công / Chuyên cần"]], word: "attendance", sent: ["Please","arrive","on","time","for","work."], ans: "Please arrive on time for work." },
+  { topic: "Workspace, Equipment & Office Supplies", words: [["Laptop","ˈlæptɒp","Máy tính xách tay"],["Printer","ˈprɪntər","Máy in"],["Desk","desk","Bàn làm việc"],["Charger","ˈtʃɑːrdʒər","Bộ sạc"],["Supplies","səˈplaɪz","Văn phòng phẩm"]], word: "laptop", sent: ["My","laptop","is","on","the","desk."], ans: "My laptop is on the desk." },
+  { topic: "Phone Calls, Messages & Making Appointments", words: [["Appointment","əˈpɔɪntmənt","Cuộc hẹn"],["Call back","kɔːl bæk","Gọi lại"],["Message","ˈmesɪdʒ","Tin nhắn"],["Available","əˈveɪləbl","Rảnh / Sẵn sàng"],["Confirm","kənˈfɜːrm","Xác nhận"]], word: "confirm", sent: ["Please","confirm","our","meeting","time."], ans: "Please confirm our meeting time." },
+  { topic: "Renting an Apartment & Home Utilities", words: [["Apartment","əˈpɑːrtmənt","Căn hộ"],["Rent","rent","Tiền thuê / Thuê"],["Utility","juːˈtɪləti","Tiện ích (điện, nước)"],["Landlord","ˈlændlɔːrd","Chủ nhà"],["Lease","liːs","Hợp đồng thuê"]], word: "apartment", sent: ["We","signed","the","apartment","lease","today."], ans: "We signed the apartment lease today." },
+  { topic: "Banking, Currency & Digital Payments", words: [["Account","əˈkaʊnt","Tài khoản"],["Transfer","trænsˈfɜːr","Chuyển khoản"],["Balance","ˈbæləns","Số dư"],["Exchange rate","ɪksˈtʃeɪndʒ reɪt","Tỷ giá"],["Fee","fiː","Phí"]], word: "transfer", sent: ["I","will","transfer","the","payment","now."], ans: "I will transfer the payment now." },
+  { topic: "Travel, Hotel Booking & Check-in", words: [["Reservation","ˌrezərˈveɪʃn","Đặt chỗ / Đặt phòng"],["Check-in","ˈtʃek ɪn","Nhận phòng"],["Luggage","ˈlʌɡɪdʒ","Hành lý"],["Reception","rɪˈsepʃn","Lễ tân"],["Itinerary","aɪˈtɪnərəri","Lịch trình chuyến đi"]], word: "reservation", sent: ["I","have","a","hotel","reservation","tonight."], ans: "I have a hotel reservation tonight." },
+  { topic: "Business Meals, Hosting & Etiquette", words: [["Host","həʊst","Chủ nhà / Tiếp đón"],["Appetizer","ˈæpɪtaɪzər","Món khai vị"],["Toast","təʊst","Nâng ly chúc mừng"],["Dietary","ˈdaɪətəri","Chế độ ăn uống"],["Polite","pəˈlaɪt","Lịch sự"]], word: "polite", sent: ["Be","polite","when","hosting","business","guests."], ans: "Be polite when hosting business guests." },
+  { topic: "Daily Habits, Fitness & Well-being", words: [["Routine","ruːˈtiːn","Thói quen hằng ngày"],["Exercise","ˈeksərsaɪz","Tập thể dục"],["Habit","ˈhæbɪt","Thói quen"],["Energy","ˈenərdʒi","Năng lượng"],["Sleep","sliːp","Ngủ / Giấc ngủ"]], word: "routine", sent: ["Morning","exercise","boosts","my","energy."], ans: "Morning exercise boosts my energy." },
+  { topic: "Online Shopping, Delivery & Returns", words: [["Delivery","dɪˈlɪvəri","Giao hàng"],["Package","ˈpækɪdʒ","Bưu kiện / Gói hàng"],["Return","rɪˈtɜːrn","Trả hàng / Đổi trả"],["Track","træk","Theo dõi đơn"],["Address","əˈdres","Địa chỉ"]], word: "delivery", sent: ["The","delivery","arrives","tomorrow","afternoon."], ans: "The delivery arrives tomorrow afternoon." },
+  { topic: "Movies, Music & Leisure Time", words: [["Leisure","ˈliːʒər","Thời gian rảnh"],["Concert","ˈkɒnsərt","Buổi hòa nhạc"],["Cinema","ˈsɪnəmə","Rạp chiếu phim"],["Relax","rɪˈlæks","Thư giãn"],["Favorite","ˈfeɪvərɪt","Yêu thích"]], word: "leisure", sent: ["We","watch","movies","in","our","leisure."], ans: "We watch movies in our leisure." },
+  { topic: "Past Experiences & Memorable Stories", words: [["Experience","ɪkˈspɪriəns","Trải nghiệm"],["Memory","ˈmeməri","Kỷ niệm"],["Trip","trɪp","Chuyến đi"],["Learned","lɜːrnd","Đã học được"],["Story","ˈstɔːri","Câu chuyện"]], word: "experience", sent: ["That","trip","was","a","great","experience."], ans: "That trip was a great experience." },
+  { topic: "Comparing Options & Making Choices", words: [["Compare","kəmˈpeər","So sánh"],["Option","ˈɒpʃn","Lựa chọn / Phương án"],["Better","ˈbetər","Tốt hơn"],["Quality","ˈkwɒləti","Chất lượng"],["Decision","dɪˈsɪʒn","Quyết định"]], word: "compare", sent: ["Let","us","compare","both","options","carefully."], ans: "Let us compare both options carefully." },
+  { topic: "Asking for Help & Polite Refusals", words: [["Request","rɪˈkwest","Yêu cầu / Đề nghị"],["Refuse","rɪˈfjuːz","Từ chối"],["Favor","ˈfeɪvər","Sự giúp đỡ"],["Busy","ˈbɪzi","Bận rộn"],["Apologize","əˈpɒlədʒaɪz","Xin lỗi"]], word: "request", sent: ["Thank","you","for","your","kind","request."], ans: "Thank you for your kind request." },
+  { topic: "Ongoing Actions, Changes & Trends", words: [["Trend","trend","Xu hướng"],["Change","tʃeɪndʒ","Thay đổi"],["Currently","ˈkɜːrəntli","Hiện tại"],["Improve","ɪmˈpruːv","Cải thiện"],["Shift","ʃɪft","Sự dịch chuyển"]], word: "improve", sent: ["Customer","service","continues","to","improve."], ans: "Customer service continues to improve." },
+  { topic: "Job Interviews, Skills & Career Goals", words: [["Interview","ˈɪntərvjuː","Phỏng vấn"],["Resume","ˈrezjuːmeɪ","Sơ yếu lý lịch / CV"],["Skill","skɪl","Kỹ năng"],["Candidate","ˈkændɪdət","Ứng viên"],["Goal","ɡəʊl","Mục tiêu"]], word: "interview", sent: ["She","prepared","well","for","the","interview."], ans: "She prepared well for the interview." },
+  { topic: "Team Meetings & Progress Updates", words: [["Meeting","ˈmiːtɪŋ","Cuộc họp"],["Agenda","əˈdʒendə","Chương trình họp"],["Update","ˈʌpdeɪt","Cập nhật tiến độ"],["Action item","ˈækʃn ˈaɪtəm","Đầu việc cần làm"],["Align","əˈlaɪn","Thống nhất hướng đi"]], word: "agenda", sent: ["Let","us","review","the","meeting","agenda."], ans: "Let us review the meeting agenda." },
+  { topic: "Assigning Tasks & Meeting Deadlines", words: [["Assign","əˈsaɪn","Phân công"],["Task","tæsk","Nhiệm vụ"],["Priority","praɪˈɒrəti","Mức độ ưu tiên"],["On track","ɒn træk","Đúng tiến độ"],["Complete","kəmˈpliːt","Hoàn thành"]], word: "priority", sent: ["This","task","is","our","top","priority."], ans: "This task is our top priority." },
+  { topic: "Workplace Emails & Document Sharing", words: [["Email","ˈiːmeɪl","Thư điện tử"],["Attachment","əˈtætʃmənt","Tệp đính kèm"],["Forward","ˈfɔːrwərd","Chuyển tiếp"],["Reply","rɪˈplaɪ","Trả lời"],["Draft","drɑːft","Bản nháp"]], word: "attachment", sent: ["Please","check","the","file","attachment","below."], ans: "Please check the file attachment below." },
+  { topic: "Customer Support & Handling Inquiries", words: [["Customer","ˈkʌstəmər","Khách hàng"],["Inquiry","ɪnˈkwaɪəri","Yêu cầu / Thắc mắc"],["Solution","səˈluːʃn","Giải pháp"],["Helpful","ˈhelpfl","Hữu ích / Tận tâm"],["Follow up","ˈfɒləʊ ʌp","Theo dõi sau đó"]], word: "solution", sent: ["We","found","a","fast","solution","today."], ans: "We found a fast solution today." },
+  { topic: "Resolving Issues & Service Recovery", words: [["Issue","ˈɪʃuː","Vấn đề / Sự cố"],["Resolve","rɪˈzɒlv","Giải quyết"],["Mistake","mɪˈsteɪk","Sai sót"],["Compensation","ˌkɒmpenˈseɪʃn","Bồi thường / Hỗ trợ"],["Apology","əˈpɒlədʒi","Lời xin lỗi"]], word: "resolve", sent: ["The","team","will","resolve","the","issue."], ans: "The team will resolve the issue." },
+  { topic: "Scheduling & Rescheduling Meetings", words: [["Reschedule","ˌriːˈʃedjuːl","Dời lịch hẹn"],["Calendar","ˈkælɪndər","Lịch làm việc"],["Reminder","rɪˈmaɪndər","Lời nhắc lịch"],["Available","əˈveɪləbl","Có thể tham dự"],["Slot","slɒt","Khung giờ"]], word: "reschedule", sent: ["Can","we","reschedule","the","call","please?"], ans: "Can we reschedule the call please?" },
+  { topic: "Short Presentations & Product Demos", words: [["Presentation","ˌpreznˈteɪʃn","Bài thuyết trình"],["Slide","slaɪd","Trang trình bày"],["Feature","ˈfiːtʃər","Tính năng"],["Benefit","ˈbenɪfɪt","Lợi ích"],["Summary","ˈsʌməri","Tóm tắt"]], word: "presentation", sent: ["Our","presentation","highlights","key","product","benefits."], ans: "Our presentation highlights key product benefits." },
+  { topic: "Quotations, Quantities & Delivery Terms", words: [["Quotation","kwəʊˈteɪʃn","Báo giá"],["Quantity","ˈkwɒntəti","Số lượng"],["Terms","tɜːrmz","Điều khoản"],["Supplier","səˈplaɪər","Nhà cung cấp"],["Invoice","ˈɪnvɔɪs","Hóa đơn thương mại"]], word: "quotation", sent: ["Please","send","the","updated","price","quotation."], ans: "Please send the updated price quotation." },
+  { topic: "Cross-Cultural Etiquette & Gifts", words: [["Culture","ˈkʌltʃər","Văn hóa"],["Respect","rɪˈspekt","Tôn trọng"],["Custom","ˈkʌstəm","Phong tục / Tập quán"],["Gift","ɡɪft","Món quà"],["Greeting","ˈɡriːtɪŋ","Lời chào"]], word: "respect", sent: ["Mutual","respect","builds","strong","global","partnerships."], ans: "Mutual respect builds strong global partnerships." },
+  { topic: "Urban Life, Traffic & Green Living", words: [["Traffic","ˈtræfɪk","Giao thông"],["Eco-friendly","ˌiːkəʊ ˈfrendli","Thân thiện môi trường"],["Recycle","ˌriːˈsaɪkl","Tái chế"],["Public","ˈpʌblɪk","Công cộng"],["Clean","kliːn","Sạch sẽ"]], word: "recycle", sent: ["We","recycle","paper","and","plastic","weekly."], ans: "We recycle paper and plastic weekly." },
+  { topic: "Effective Language Learning Strategies", words: [["Practice","ˈpræktɪs","Luyện tập"],["Vocabulary","vəˈkæbjələri","Từ vựng"],["Pronunciation","prəˌnʌnsiˈeɪʃn","Phát âm"],["Fluency","ˈfluːənsi","Sự lưu loát"],["Review","rɪˈvjuː","Ôn tập"]], word: "vocabulary", sent: ["Daily","practice","improves","vocabulary","and","fluency."], ans: "Daily practice improves vocabulary and fluency." },
+  { topic: "Remote Work & Digital Tools", words: [["Remote","rɪˈməʊt","Làm việc từ xa"],["Online","ˌɒnˈlaɪn","Trực tuyến"],["Software","ˈsɒftweər","Phần mềm"],["Connect","kəˈnekt","Kết nối"],["Shared","ʃeərd","Được chia sẻ"]], word: "remote", sent: ["Remote","teams","stay","connected","via","video."], ans: "Remote teams stay connected via video." },
+  { topic: "Personal Budgeting & Saving", words: [["Budget","ˈbʌdʒɪt","Ngân sách"],["Save","seɪv","Tiết kiệm"],["Expense","ɪkˈspens","Chi phí"],["Income","ˈɪnkʌm","Thu nhập"],["Plan","plæn","Kế hoạch"]], word: "budget", sent: ["Track","monthly","expenses","within","your","budget."], ans: "Track monthly expenses within your budget." },
+  { topic: "Healthy Eating & Nutrition", words: [["Nutrition","njuːˈtrɪʃn","Dinh dưỡng"],["Balanced","ˈbælənst","Cân bằng"],["Fresh","freʃ","Tươi"],["Meal","miːl","Bữa ăn"],["Hydrate","ˈhaɪdreɪt","Bù nước"]], word: "nutrition", sent: ["Good","nutrition","supports","focus","at","work."], ans: "Good nutrition supports focus at work." },
+  { topic: "Festivals & Local Traditions", words: [["Festival","ˈfestɪvl","Lễ hội"],["Tradition","trəˈdɪʃn","Truyền thống"],["Celebrate","ˈselɪbreɪt","Ăn mừng / Kỷ niệm"],["Customary","ˈkʌstəməri","Theo thông lệ"],["Gathering","ˈɡæðərɪŋ","Buổi sum họp"]], word: "festival", sent: ["Families","gather","to","celebrate","the","festival."], ans: "Families gather to celebrate the festival." },
+  { topic: "Active Listening & Empathy", words: [["Listen","ˈlɪsn","Lắng nghe"],["Empathy","ˈempəθi","Sự đồng cảm"],["Understand","ˌʌndərˈstænd","Thấu hiểu"],["Calm","kɑːm","Bình tĩnh"],["Clarify","ˈklærəfaɪ","Làm rõ"]], word: "empathy", sent: ["Active","listening","and","empathy","prevent","misunderstandings."], ans: "Active listening and empathy prevent misunderstandings." },
+  { topic: "Project Planning & Risk Management", words: [["Project","ˈprɒdʒekt","Dự án"],["Risk","rɪsk","Rủi ro"],["Milestone","ˈmaɪlstəʊn","Cột mốc dự án"],["Timeline","ˈtaɪmlaɪn","Tiến độ thời gian"],["Backup","ˈbækʌp","Phương án dự phòng"]], word: "milestone", sent: ["Each","project","milestone","has","clear","goals."], ans: "Each project milestone has clear goals." },
+  { topic: "Performance Review & Constructive Feedback", words: [["Feedback","ˈfiːdbæk","Phản hồi"],["Strength","streŋθ","Điểm mạnh"],["Growth","ɡrəʊθ","Sự phát triển"],["Review","rɪˈvjuː","Đánh giá / Xem xét"],["Target","ˈtɑːrɡɪt","Chỉ tiêu / Mục tiêu"]], word: "feedback", sent: ["Constructive","feedback","helps","everyone","grow","faster."], ans: "Constructive feedback helps everyone grow faster." },
+  { topic: "Startups, Ideas & Market Fit", words: [["Startup","ˈstɑːrtʌp","Khởi nghiệp"],["Market","ˈmɑːrkɪt","Thị trường"],["Idea","aɪˈdiːə","Ý tưởng"],["Launch","lɔːntʃ","Ra mắt"],["Value","ˈvæljuː","Giá trị"]], word: "market", sent: ["Test","your","idea","with","real","market","users."], ans: "Test your idea with real market users." },
+  { topic: "Media, News & Perspectives", words: [["Article","ˈɑːrtɪkl","Bài viết / Bản tin"],["Source","sɔːrs","Nguồn tin"],["Perspective","pərˈspektɪv","Góc nhìn"],["Report","rɪˈpɔːrt","Báo cáo / Bản tin"],["Fact","fækt","Sự thật"]], word: "perspective", sent: ["Read","multiple","sources","for","a","balanced","perspective."], ans: "Read multiple sources for a balanced perspective." },
+  { topic: "Career Growth & Adaptability", words: [["Career","kəˈrɪər","Sự nghiệp"],["Adapt","əˈdæpt","Thích ứng"],["Leadership","ˈliːdəʃɪp","Khả năng dẫn dắt"],["Opportunity","ˌɒpərˈtjuːnəti","Cơ hội"],["Progress","ˈprəʊɡres","Tiến bộ"]], word: "career", sent: ["Continuous","learning","supports","long-term","career","growth."], ans: "Continuous learning supports long-term career growth." },
+  { topic: "Global Teams & Cross-Border Collaboration", words: [["Global","ˈɡləʊbl","Toàn cầu"],["Collaborate","kəˈlæbəreɪt","Hợp tác"],["Standard","ˈstændərd","Tiêu chuẩn"],["Coordinate","kəʊˈɔːrdɪneɪt","Điều phối"],["Partner","ˈpɑːrtnər","Đối tác"]], word: "collaborate", sent: ["Global","teams","collaborate","across","time","zones."], ans: "Global teams collaborate across time zones." },
+  { topic: "Arguments, Evidence & Persuasion", words: [["Evidence","ˈevɪdəns","Bằng chứng"],["Persuade","pərˈsweɪd","Thuyết phục"],["Point","pɔɪnt","Luận điểm"],["Reason","ˈriːzn","Lý do"],["Conclusion","kənˈkluːʒn","Kết luận"]], word: "evidence", sent: ["Strong","evidence","supports","a","clear","conclusion."], ans: "Strong evidence supports a clear conclusion." }
 ];
 
-(function buildFullEn50() {
+(function buildDiverseEn50() {
   if (typeof window === "undefined") return;
-  const fullList = [...EN_OUTLINE_50];
+  const fullList = [...EN_DETAILED_LESSONS];
 
   for (let i = 4; i <= 50; i++) {
-    const topic = EN_CURRICULUM_TOPICS[i - 4] || `Everyday & Workplace Communication #${i}`;
+    const pack = EN_TOPIC_BANK[(i - 4) % EN_TOPIC_BANK.length];
     let stage = 2;
     let level = "CEFR A1–A2 · Chặng 2: Sinh hoạt & Giao tiếp hằng ngày";
 
@@ -312,94 +195,68 @@ const EN_CURRICULUM_TOPICS = [
       level = "CEFR B1 · Chặng 4: Công sở, Giao tiếp & Xử lý tình huống";
     } else if (i >= 36) {
       stage = 5;
-      level = "CEFR B1–B2 · Chặng 5: Đàm phán, Phân tích & Chuyên sâu";
+      level = "CEFR B2 · Chặng 5: Đàm phán, Phân tích & Chuyên sâu";
     }
 
     const prevTitle = fullList[i - 2].title;
-    const sampleDictations = [
-      "schedule", "colleague", "prepare", "solution", "confirm",
-      "meeting", "update", "support", "project", "discuss"
-    ];
-    const dictationWord = sampleDictations[(i - 1) % sampleDictations.length];
+    const vocab = pack.words.map(([word, ipa, meaning], idx) => ({
+      word,
+      ipa,
+      meaning,
+      tip: `Từ vựng #${idx + 1} thuộc chủ đề "${pack.topic}": luyện đọc rõ trọng âm /${ipa}/ và áp dụng vào ngữ cảnh thực tế.`
+    }));
+
+    const w0 = vocab[0];
+    const w1 = vocab[1];
+    const w2 = vocab[2];
 
     fullList.push({
       id: i,
       stage,
       level,
-      title: topic,
-      subtitle: `Phát triển từ "${prevTitle}" sang tình huống thực tế #${i}`,
+      title: pack.topic,
+      subtitle: `Phát triển từ "${prevTitle}" — Áp dụng thực tế hằng ngày & công sở`,
       prereq: `Hoàn thành Bài ${i - 1}: ${prevTitle}`,
-      vocab: [
-        {
-          word: "Schedule",
-          ipa: "/ˈʃedjuːl/ · /ˈskedʒuːl/",
-          meaning: "Lịch trình / Lên lịch",
-          tip: "Trọng âm ở âm tiết đầu; chú ý âm cuối /l/ đặt đầu lưỡi chạm lợi trên."
-        },
-        {
-          word: "Colleague",
-          ipa: "/ˈkɒliːɡ/",
-          meaning: "Đồng nghiệp",
-          tip: "Trọng âm rơi vào âm đầu 'col-' /ˈkɒl/, đuôi đọc /liːɡ/."
-        },
-        {
-          word: "Prepare",
-          ipa: "/prɪˈpeə/",
-          meaning: "Chuẩn bị",
-          tip: "Trọng âm ở âm tiết thứ hai '-pare' /ˈpeə/, âm đầu /prɪ/ đọc nhẹ."
-        },
-        {
-          word: "Solution",
-          ipa: "/səˈluːʃn/",
-          meaning: "Giải pháp",
-          tip: "Trọng âm ở âm '-lu-' /ˈluː/, kết thúc bằng âm /ʃn/ gọn."
-        },
-        {
-          word: "Confirm",
-          ipa: "/kənˈfɜːm/",
-          meaning: "Xác nhận",
-          tip: "Trọng âm ở âm thứ hai '-firm' /ˈfɜːm/, nhấn rõ nguyên âm dài /ɜː/."
-        }
-      ],
+      vocab,
       grammar: {
-        formula: "First, + [Action 1]. Then, + [Action 2].  |  Let's + [Verb base].",
-        explanation: `Trong chủ đề "${topic}", dùng 'First... Then...' để trình bày các bước rõ ràng và 'Let's + động từ nguyên mẫu' để rủ hoặc đề xuất cùng làm.`,
-        tiles: ["Let's", "prepare", "first,", "then", "confirm."],
-        answer: "Let's prepare first, then confirm."
+        formula: `[Subject] + [Verb] + key phrase on "${pack.topic}"`,
+        explanation: `Trong chủ đề "${pack.topic}", kết hợp "${w0.word}" (${w0.meaning}) và "${w1.word}" (${w1.meaning}) để diễn đạt trôi chảy.`,
+        tiles: pack.sent,
+        answer: pack.ans
       },
       dialogue: [
         {
           speaker: "Speaker A",
-          target: "Let's prepare the plan first.",
-          ipa: "/lets prɪˈpeə ðə plæn fɜːst./",
-          vi: "Hãy chuẩn bị kế hoạch trước nhé."
+          target: `Let us talk about ${w0.word.toLowerCase()} and ${w1.word.toLowerCase()} today.`,
+          ipa: `/let ʌs tɔːk əˈbaʊt ${w0.ipa} ænd ${w1.ipa} təˈdeɪ./`,
+          vi: `Hôm nay hãy cùng trao đổi về ${w0.meaning.toLowerCase()} và ${w1.meaning.toLowerCase()}.`
         },
         {
           speaker: "Speaker B",
-          target: "Good idea. Then we can confirm with the team.",
-          ipa: "/ɡʊd aɪˈdɪə. ðen wi kən kənˈfɜːm wɪð ðə tiːm./",
-          vi: "Ý hay đấy. Sau đó chúng ta có thể xác nhận với cả đội."
+          target: `Sure, ${w2.word.toLowerCase()} is also essential.`,
+          ipa: `/ʃʊər, ${w2.ipa} ɪz ˈɔːlsəʊ ɪˈsenʃl./`,
+          vi: `Chắc chắn rồi, ${w2.meaning.toLowerCase()} cũng rất cần thiết.`
         },
         {
           speaker: "Speaker A",
-          target: "Thanks! That helps us find a clear solution.",
-          ipa: "/θæŋks! ðæt helps ʌs faɪnd ə klɪə səˈluːʃn./",
-          vi: "Cảm ơn! Điều đó giúp chúng ta tìm ra giải pháp rõ ràng."
+          target: pack.ans,
+          ipa: `${w0.ipa} · ${w1.ipa}`,
+          vi: `Mẫu câu chuẩn áp dụng cho chủ đề ${pack.topic}.`
         }
       ],
       reading: {
-        title: `Practical Scenario: ${topic}`,
-        text: `Today we practice "${topic}". First, we check the schedule with colleagues. Then, we share a clear solution and confirm the next step.`,
-        ipa: "/təˈdeɪ wi ˈpræktɪs tɒpɪk. fɜːst, wi tʃek ðə ˈʃedjuːl wɪð ˈkɒliːɡz. ðen, wi ʃeə ə klɪə səˈluːʃn ænd kənˈfɜːm ðə nekst step./",
-        vi: `Hôm nay chúng ta luyện tập "${topic}". Đầu tiên, chúng ta kiểm tra lịch trình cùng đồng nghiệp. Sau đó, chia sẻ giải pháp rõ ràng và xác nhận bước tiếp theo.`,
-        question: "Bước tiếp theo sau khi chia sẻ giải pháp là gì?",
-        options: ["Confirm the next step", "Cancel the plan", "Skip the schedule"],
+        title: `Reading: ${pack.topic}`,
+        text: `In daily life and work, ${w0.word.toLowerCase()} and ${w1.word.toLowerCase()} matter. ${pack.ans}`,
+        ipa: `/ɪn ˈdeɪli laɪf ænd wɜːrk, ${w0.ipa} ænd ${w1.ipa} ˈmætər./`,
+        vi: `Trong đời sống hằng ngày và công việc, ${w0.meaning.toLowerCase()} và ${w1.meaning.toLowerCase()} đều quan trọng. ${pack.ans}`,
+        question: `Which topic word is introduced first in "${pack.topic}"?`,
+        options: [`${w0.word} (${w0.meaning})`, "Yesterday", "Midnight"],
         correctIndex: 0
       },
-      dictationTarget: dictationWord,
+      dictationTarget: pack.word,
       quiz: {
-        question: `Cấu trúc "Let's + động từ nguyên mẫu" trong Bài ${i} dùng để làm gì?`,
-        options: ["Đề xuất cùng thực hiện hành động", "Hỏi thời gian quá khứ", "Kể lại sự việc đã xong"],
+        question: `Trong chủ đề "${pack.topic}", từ "${w1.word}" có nghĩa là gì?`,
+        options: [w1.meaning, "Chào tạm biệt", "Thời tiết mưa"],
         correctIndex: 0
       }
     });
