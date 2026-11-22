@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <title>LinguaViet Pro · Học Tiếng Trung & Tiếng Anh trên Mobile Web</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef3f9;
+      --text: #162032;
+      --muted: #5c6b82;
+      --primary: #1d4ed8;
+      --primary-hover: #1e40af;
+      --accent: #0d9488;
+      --accent-soft: #ccfbf1;
+      --warn: #d97706;
+      --warn-soft: #fef3c7;
+      --success: #15803d;
+      --success-soft: #dcfce7;
+      --danger: #b91c1c;
+      --danger-soft: #fee2e2;
+      --border: #dce4ef;
+      --radius: 14px;
+      --shadow: 0 6px 24px rgba(22, 32, 50, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans CJK SC", "PingFang SC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: 84px;
+    }
+
+    header {
+      background: linear-gradient(120deg, #0f172a 0%, #1d4ed8 60%, #0d9488 100%);
+      color: #fff;
+      padding: 14px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.18);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.12rem;
+      letter-spacing: 0.2px;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      font-size: 0.78rem;
+      opacity: 0.92;
+    }
+
+    .lang-switcher {
+      display: flex;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 4px;
+      border-radius: 11px;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .lang-switcher {
+        width: auto;
+      }
+    }
+
+    .lang-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      background: #fff;
+      color: var(--text);
+    }
+
+    .stats-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      font-size: 0.82rem;
+    }
+
+    @media (min-width: 768px) {
+      .stats-bar {
+        width: auto;
+        justify-content: flex-end;
+      }
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.16);
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .unlock-btn {
+      background: #fef08a;
+      color: #1e293b;
+      border: none;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    .app-container {
+      max-width: 1280px;
+      margin: 14px auto;
+      padding: 0 12px 24px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .app-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    .sidebar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      position: sticky;
+      top: 90px;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        position: static;
+        max-height: 240px;
+      }
+    }
+
+    .stage-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      scrollbar-width: thin;
+    }
+
+    .stage-tab {
+      flex: 0 0 auto;
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .stage-tab.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .lesson-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .lesson-item.active {
+      border-color: var(--primary);
+      background: #eff6ff;
+      box-shadow: inset 3px 0 0 var(--primary);
+    }
+
+    .lesson-item.locked {
+      opacity: 0.58;
+      cursor: not-allowed;
+      background: #f8fafc;
+    }
+
+    .lesson-item-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .lesson-item-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .lesson-item-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .workspace {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .lesson-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: #0f766e;
+      font-weight: 700;
+      font-size: 0.76rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-bottom: 5px;
+    }
+
+    .lesson-header h2 {
+      margin: 3px 0;
+      font-size: 1.22rem;
+    }
+
+    .prereq-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .steps-nav {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .steps-nav {
+        display: none;
+      }
+    }
+
+    .step-btn {
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text);
+      padding: 9px 6px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .step-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .mobile-bottom-nav {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 30;
+        background: #ffffff;
+        border-top: 1px solid var(--border);
+        box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.1);
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        padding: 6px 4px env(safe-area-inset-bottom, 6px);
+      }
+
+      .mob-step-btn {
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 6px 2px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+      }
+
+      .mob-step-btn.active {
+        background: #eff6ff;
+        color: var(--primary);
+      }
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+
+    .vocab-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .vocab-word {
+      font-size: 1.42rem;
+      font-weight: 800;
+    }
+
+    .vocab-phonetic {
+      color: var(--primary);
+      font-weight: 700;
+      margin-left: 6px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 9px;
+      padding: 8px 12px;
+      font-weight: 700;
+      font-size: 0.84rem;
+      cursor: pointer;
+      min-height: 36px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-soft {
+      background: var(--surface-soft);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .tip-box {
+      margin-top: 10px;
+      background: var(--warn-soft);
+      border-left: 4px solid var(--warn);
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.86rem;
+    }
+
+    .formula-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 11px 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 10px;
+      font-size: 0.92rem;
+    }
+
+    .tiles-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 46px;
+      padding: 10px;
+      border: 1px dashed #94a3b8;
+      border-radius: 10px;
+      background: #f8fafc;
+      margin: 10px 0;
+    }
+
+    .tile {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .dialogue-line {
+      border-bottom: 1px solid var(--border);
+      padding: 11px 0;
+    }
+
+    .dialogue-line:last-child {
+      border-bottom: none;
+    }
+
+    .speaker {
+      font-weight: 800;
+      font-size: 0.82rem;
+      color: var(--accent);
+    }
+
+    .target-text {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 4px 0;
+    }
+
+    .sub-text {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .hidden-text {
+      display: none;
+    }
+
+    .word-chip {
+      display: inline-block;
+      padding: 3px 8px;
+      margin: 2px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    .word-ok {
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .word-err {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .tian-zi-ge {
+      width: 240px;
+      height: 240px;
+      border: 2px solid #1e293b;
+      position: relative;
+      background: #fff;
+      margin: 10px auto;
+      touch-action: none;
+    }
+
+    .tian-zi-ge::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, transparent 49.5%, #cbd5e1 49.5%, #cbd5e1 50.5%, transparent 50.5%),
+        linear-gradient(to bottom, transparent 49.5%, #cbd5e1 49.5%, #cbd5e1 50.5%, transparent 50.5%),
+        linear-gradient(45deg, transparent 49.6%, #e2e8f0 49.6%, #e2e8f0 50.4%, transparent 50.4%),
+        linear-gradient(-45deg, transparent 49.6%, #e2e8f0 49.6%, #e2e8f0 50.4%, transparent 50.4%);
+      pointer-events: none;
+    }
+
+    #hanzi-target {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      touch-action: none;
+    }
+
+    #draw-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .feedback-ok {
+      background: var(--success-soft);
+      color: var(--success);
+      padding: 10px 12px;
+      border-radius: 9px;
+      font-weight: 700;
+      margin-top: 10px;
+      font-size: 0.88rem;
+    }
+
+    .feedback-err {
+      background: var(--danger-soft);
+      color: var(--danger);
+      padding: 10px 12px;
+      border-radius: 9px;
+      font-weight: 700;
+      margin-top: 10px;
+      font-size: 0.88rem;
+    }
+
+    .step-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <h1>LinguaViet Pro · Mobile Web</h1>
+        <p>50 bài/ngôn ngữ · 5 bước · Nghe – Nói – Đọc – Viết cho người Việt</p>
+      </div>
+      <div class="lang-switcher">
+        <button id="btn-lang-zh" class="lang-btn active" onclick="switchLanguage('zh')">🇨🇳 Tiếng Trung</button>
+        <button id="btn-lang-en" class="lang-btn" onclick="switchLanguage('en')">🇬🇧 Tiếng Anh</button>
+      </div>
+      <div class="stats-bar">
+        <span class="stat-pill" id="xp-display">⭐ 0 XP</span>
+        <span class="stat-pill" id="streak-display">🔥 1 ngày</span>
+        <button class="unlock-btn" onclick="unlockAllLessons()">🔓 Mở tất cả bài</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-container">
+    <aside class="sidebar">
+      <div class="stage-tabs" id="stage-tabs"></div>
+      <div id="lesson-list"></div>
+    </aside>
+
+    <section class="workspace" id="workspace"></section>
+  </main>
+
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+    <button class="mob-step-btn active" data-step="1" onclick="goStep(1)"><span>🔊</span><span>Từ vựng</span></button>
+    <button class="mob-step-btn" data-step="2" onclick="goStep(2)"><span>📐</span><span>Ngữ pháp</span></button>
+    <button class="mob-step-btn" data-step="3" onclick="goStep(3)"><span>🎤</span><span>Nghe/Nói</span></button>
+    <button class="mob-step-btn" data-step="4" onclick="goStep(4)"><span>✍️</span><span>Đọc/Viết</span></button>
+    <button class="mob-step-btn" data-step="5" onclick="goStep(5)"><span>🎯</span><span>Tổng kết</span></button>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+  <script src="data/zh_100_outline.js"></script>
+  <script src="data/en_100_outline.js"></script>
+
+  <script>
+    const state = {
+      lang: "zh",
+      stageFilter: 0,
+      currentLessonId: 1,
+      step: 1,
+      xp: 0,
+      streak: 1,
+      unlocked: { zh: [1], en: [1] },
+      completed: { zh: [], en: [] },
+      showPhonetic: true,
+      showMeaning: true
+    };
+
+    function getLessons() {
+      return state.lang === "zh" ? (window.ZH_LESSONS || []) : (window.EN_LESSONS || []);
+    }
+
+    function getCurrentLesson() {
+      const list = getLessons();
+      return list.find((l) => l.id === state.currentLessonId) || list[0];
+    }
+
+    function addXp(points) {
+      state.xp += points;
+      document.getElementById("xp-display").textContent = `⭐ ${state.xp} XP`;
+    }
+
+    function switchLanguage(lang) {
+      state.lang = lang;
+      state.stageFilter = 0;
+      state.currentLessonId = state.unlocked[lang][state.unlocked[lang].length - 1] || 1;
+      state.step = 1;
+      document.getElementById("btn-lang-zh").classList.toggle("active", lang === "zh");
+      document.getElementById("btn-lang-en").classList.toggle("active", lang === "en");
+      renderSidebar();
+      renderWorkspace();
+    }
+
+    function unlockAllLessons() {
+      state.unlocked[state.lang] = getLessons().map((l) => l.id);
+      renderSidebar();
+      renderWorkspace();
+      alert("Đã mở khóa toàn bộ 50 bài của ngôn ngữ hiện tại.");
+    }
+
+    function speakText(text, rate = 1.0) {
+      if (!("speechSynthesis" in window)) {
+        alert("Trình duyệt không hỗ trợ phát giọng nói trực tiếp.");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = state.lang === "zh" ? "zh-CN" : "en-US";
+      utter.rate = rate;
+      window.speechSynthesis.speak(utter);
+    }
+
+    function playDialogueSequence(lines, idx = 0) {
+      if (idx >= lines.length) return;
+      if (!("speechSynthesis" in window)) {
+        speakText(lines[idx].target, 1.0);
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(lines[idx].target);
+      utter.lang = state.lang === "zh" ? "zh-CN" : "en-US";
+      utter.rate = 0.95;
+      utter.onend = () => setTimeout(() => playDialogueSequence(lines, idx + 1), 350);
+      window.speechSynthesis.speak(utter);
+    }
+
+    function syncMobileBottomNav() {
+      document.querySelectorAll(".mob-step-btn").forEach((btn) => {
+        btn.classList.toggle("active", Number(btn.dataset.step) === state.step);
+      });
+    }
+
+    function renderSidebar() {
+      const stageTabsEl = document.getElementById("stage-tabs");
+      const stages = [
+        { id: 0, label: "Tất cả (50)" },
+        { id: 1, label: "Chặng 1" },
+        { id: 2, label: "Chặng 2" },
+        { id: 3, label: "Chặng 3" },
+        { id: 4, label: "Chặng 4" },
+        { id: 5, label: "Chặng 5" }
+      ];
+
+      stageTabsEl.innerHTML = stages
+        .map(
+          (st) =>
+            `<button class="stage-tab ${state.stageFilter === st.id ? "active" : ""}" onclick="setStage(${st.id})">${st.label}</button>`
+        )
+        .join("");
+
+      const list = getLessons().filter((l) => state.stageFilter === 0 || l.stage === state.stageFilter);
+      const unlockedList = state.unlocked[state.lang];
+      const completedList = state.completed[state.lang];
+
+      document.getElementById("lesson-list").innerHTML = list
+        .map((lesson) => {
+          const isUnlocked = unlockedList.includes(lesson.id);
+          const isCompleted = completedList.includes(lesson.id);
+          const isActive = lesson.id === state.currentLessonId;
+          const statusIcon = isCompleted ? "✅" : isUnlocked ? "📘" : "🔒";
+          return `
+            <div class="lesson-item ${isActive ? "active" : ""} ${!isUnlocked ? "locked" : ""}"
+                 onclick="${isUnlocked ? `selectLesson(${lesson.id})` : ""}">
+              <div class="lesson-item-top">
+                <span>Bài ${lesson.id} · ${statusIcon}</span>
+                <span>${lesson.level.split("·")[0].trim()}</span>
+              </div>
+              <div class="lesson-item-title">${lesson.title}</div>
+              <div class="lesson-item-sub">${lesson.subtitle}</div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    function setStage(stageId) {
+      state.stageFilter = stageId;
+      renderSidebar();
+    }
+
+    function selectLesson(id) {
+      state.currentLessonId = id;
+      state.step = 1;
+      renderSidebar();
+      renderWorkspace();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function goStep(stepNum) {
+      state.step = Math.max(1, Math.min(5, stepNum));
+      renderWorkspace();
+    }
+
+    function renderWorkspace() {
+      const lesson = getCurrentLesson();
+      if (!lesson) {
+        document.getElementById("workspace").innerHTML = "<p>Không tìm thấy dữ liệu bài học. Hãy kiểm tra thư mục data/.</p>";
+        return;
+      }
+
+      const stepLabels = [
+        "1. Từ vựng & Loa",
+        "2. Ngữ pháp & Ghép câu",
+        "3. Nghe & Nói (AI)",
+        "4. Đọc & Viết",
+        "5. Tổng kết bài"
+      ];
+
+      document.getElementById("workspace").innerHTML = `
+        <div class="lesson-header">
+          <span class="badge">${lesson.level}</span>
+          <h2>Bài ${lesson.id}: ${lesson.title}</h2>
+          <div class="sub-text">${lesson.subtitle}</div>
+          <div class="prereq-note">🔗 Liên kết giáo án: ${lesson.prereq}</div>
+        </div>
+
+        <div class="steps-nav">
+          ${stepLabels
+            .map(
+              (lbl, idx) =>
+                `<button class="step-btn ${state.step === idx + 1 ? "active" : ""}" onclick="goStep(${idx + 1})">${lbl}</button>`
+            )
+            .join("")}
+        </div>
+
+        <div id="step-content"></div>
+
+        <div class="step-footer">
+          <button class="btn btn-soft" onclick="goStep(${state.step - 1})" ${state.step === 1 ? "disabled" : ""}>← Bước trước</button>
+          <span class="sub-text">Bước ${state.step} / 5</span>
+          <button class="btn btn-primary" onclick="goStep(${state.step + 1})" ${state.step === 5 ? "disabled" : ""}>Bước tiếp theo →</button>
+        </div>
+      `;
+
+      syncMobileBottomNav();
+      renderStepBody(lesson);
+    }
+
+    function renderStepBody(lesson) {
+      const container = document.getElementById("step-content");
+      if (state.step === 1) renderStep1Vocab(container, lesson);
+      else if (state.step === 2) renderStep2Grammar(container, lesson);
+      else if (state.step === 3) renderStep3ListenSpeak(container, lesson);
+      else if (state.step === 4) renderStep4ReadWrite(container, lesson);
+      else renderStep5Quiz(container, lesson);
+    }
+
+    function renderStep1Vocab(container, lesson) {
+      container.innerHTML = lesson.vocab
+        .map((item) => {
+          const phonetic = state.lang === "zh" ? item.pinyin : item.ipa;
+          return `
+            <div class="card">
+              <div class="vocab-top">
+                <div>
+                  <span class="vocab-word">${item.word}</span>
+                  <span class="vocab-phonetic">${phonetic}</span>
+                  <div class="sub-text"><strong>Nghĩa:</strong> ${item.meaning}</div>
+                </div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                  <button class="btn btn-primary" onclick="speakText('${item.word.replace(/'/g, "\\'")}', 1.0)">🔊 Nghe (1.0x)</button>
+                  <button class="btn btn-soft" onclick="speakText('${item.word.replace(/'/g, "\\'")}', 0.65)">🐢 Chậm (0.65x)</button>
+                </div>
+              </div>
+              <div class="tip-box">
+                <strong>💡 Mẹo phát âm cho người Việt:</strong> ${item.tip}
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    function renderStep2Grammar(container, lesson) {
+      const g = lesson.grammar;
+      container.innerHTML = `
+        <div class="card">
+          <div class="formula-box">📐 Công thức cốt lõi: ${g.formula}</div>
+          <p style="margin:0;">${g.explanation}</p>
+        </div>
+        <div class="card">
+          <h3>🧩 Bài tập ghép từ thành câu hoàn chỉnh</h3>
+          <p class="sub-text">Chạm vào các thẻ từ để ghép câu đúng:</p>
+          <div id="tile-bank" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+            ${g.tiles
+              .map(
+                (t, i) =>
+                  `<button class="tile" id="bank-tile-${i}" onclick="pickTile('${t.replace(/'/g, "\\'")}', ${i})">${t}</button>`
+              )
+              .join("")}
+          </div>
+          <div class="tiles-area" id="chosen-area"></div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkGrammarSentence('${g.answer.replace(/'/g, "\\'")}')">Kiểm tra câu</button>
+            <button class="btn btn-soft" onclick="resetGrammarTiles()">Làm lại</button>
+          </div>
+          <div id="grammar-feedback"></div>
+        </div>
+      `;
+      window._chosenTiles = [];
+    }
+
+    function pickTile(word, bankIdx) {
+      const btn = document.getElementById(`bank-tile-${bankIdx}`);
+      if (!btn || btn.disabled) return;
+      btn.disabled = true;
+      btn.style.opacity = "0.4";
+      window._chosenTiles.push({ word, bankIdx });
+      renderChosenTiles();
+    }
+
+    function renderChosenTiles() {
+      document.getElementById("chosen-area").innerHTML = window._chosenTiles
+        .map((item, idx) => `<button class="tile" onclick="removeChosenTile(${idx})">${item.word} ✕</button>`)
+        .join("");
+    }
+
+    function removeChosenTile(idx) {
+      const removed = window._chosenTiles.splice(idx, 1)[0];
+      const bankBtn = document.getElementById(`bank-tile-${removed.bankIdx}`);
+      if (bankBtn) {
+        bankBtn.disabled = false;
+        bankBtn.style.opacity = "1";
+      }
+      renderChosenTiles();
+    }
+
+    function resetGrammarTiles() {
+      renderWorkspace();
+    }
+
+    function checkGrammarSentence(expected) {
+      const joinChar = state.lang === "zh" ? "" : " ";
+      const built = window._chosenTiles.map((x) => x.word).join(joinChar).replace(/\s+([.,!?])/g, "$1").trim();
+      const fb = document.getElementById("grammar-feedback");
+      if (built.replace(/\s+/g, " ").toLowerCase() === expected.replace(/\s+/g, " ").toLowerCase()) {
+        addXp(15);
+        fb.innerHTML = `<div class="feedback-ok">✅ Chính xác! Câu hoàn chỉnh: "${expected}" (+15 XP)</div>`;
+        speakText(expected, 0.95);
+      } else {
+        fb.innerHTML = `<div class="feedback-err">❌ Chưa khớp. Bạn đang ghép: "${built || "(trống)"}" — Gợi ý: "${expected}"</div>`;
+      }
+    }
+
+    function renderStep3ListenSpeak(container, lesson) {
+      const encodedLines = encodeURIComponent(JSON.stringify(lesson.dialogue));
+      container.innerHTML = `
+        <div class="card">
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+            <h3 style="margin:0;">🎧 Hội thoại tình huống thực tế</h3>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button class="btn btn-accent" onclick="playDialogueSequence(JSON.parse(decodeURIComponent('${encodedLines}')))">▶ Nghe cả hội thoại</button>
+              <button class="btn btn-soft" onclick="togglePhonetic()">${state.showPhonetic ? "Ẩn" : "Hiện"} Pinyin/IPA</button>
+              <button class="btn btn-soft" onclick="toggleMeaning()">${state.showMeaning ? "Ẩn" : "Hiện"} nghĩa Việt</button>
+            </div>
+          </div>
+          ${lesson.dialogue
+            .map((d, i) => {
+              const phon = state.lang === "zh" ? d.pinyin : d.ipa;
+              return `
+                <div class="dialogue-line">
+                  <div class="speaker">${d.speaker}</div>
+                  <div class="target-text">${d.target}</div>
+                  <div class="sub-text ${state.showPhonetic ? "" : "hidden-text"}">${phon}</div>
+                  <div class="sub-text ${state.showMeaning ? "" : "hidden-text"}">🇻🇳 ${d.vi}</div>
+                  <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
+                    <button class="btn btn-soft" onclick="speakText('${d.target.replace(/'/g, "\\'")}', 1.0)">🔊 Nghe câu</button>
+                    <button class="btn btn-primary" onclick="startShadowing(${i}, '${d.target.replace(/'/g, "\\'")}')">🎤 Luyện nói</button>
+                  </div>
+                  <div id="shadow-result-${i}" style="margin-top:6px;"></div>
+                </div>
+              `;
+            })
+            .join("")}
+        </div>
+      `;
+    }
+
+    function togglePhonetic() {
+      state.showPhonetic = !state.showPhonetic;
+      renderWorkspace();
+    }
+
+    function toggleMeaning() {
+      state.showMeaning = !state.showMeaning;
+      renderWorkspace();
+    }
+
+    function startShadowing(lineIdx, expectedText) {
+      const resEl = document.getElementById(`shadow-result-${lineIdx}`);
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRec) {
+        const tokens =
+          state.lang === "zh"
+            ? Array.from(expectedText.replace(/[，。！？、]/g, ""))
+            : expectedText.replace(/[.,!?]/g, "").split(/\s+/);
+        const chips = tokens
+          .map((tok, idx) => `<span class="word-chip ${idx % 4 === 3 ? "word-err" : "word-ok"}">${tok}</span>`)
+          .join("");
+        resEl.innerHTML = `<div class="sub-text"><strong>Kết quả mô phỏng chấm âm:</strong> ${chips}</div>`;
+        addXp(10);
+        return;
+      }
+
+      const rec = new SpeechRec();
+      rec.lang = state.lang === "zh" ? "zh-CN" : "en-US";
+      rec.interimResults = false;
+      resEl.innerHTML = `<span class="sub-text">🎙️ Đang nghe bạn đọc...</span>`;
+
+      rec.onresult = (event) => {
+        const transcript = event.results[0][0].transcript || "";
+        const expectedTokens =
+          state.lang === "zh"
+            ? Array.from(expectedText.replace(/[，。！？、\s]/g, ""))
+            : expectedText.toLowerCase().replace(/[.,!?]/g, "").split(/\s+/);
+        const spokenNorm =
+          state.lang === "zh"
+            ? transcript.replace(/[，。！？、\s]/g, "")
+            : transcript.toLowerCase().replace(/[.,!?]/g, "");
+
+        const chips = expectedTokens
+          .map((tok) => {
+            const cleanTok = state.lang === "zh" ? tok : tok.toLowerCase();
+            return `<span class="word-chip ${spokenNorm.includes(cleanTok) ? "word-ok" : "word-err"}">${tok}</span>`;
+          })
+          .join("");
+
+        addXp(15);
+        resEl.innerHTML = `
+          <div class="sub-text">Bạn đọc: "<strong>${transcript}</strong>" (+15 XP)</div>
+          <div style="margin-top:4px;">${chips}</div>
+        `;
+      };
+
+      rec.onerror = () => {
+        resEl.innerHTML = `<span class="feedback-err">Không nhận được micro trên thiết bị hoặc trình duyệt này.</span>`;
+      };
+
+      rec.start();
+    }
+
+    function renderStep4ReadWrite(container, lesson) {
+      const r = lesson.reading;
+      const rPhon = state.lang === "zh" ? r.pinyin : r.ipa;
+
+      const writingBlock =
+        state.lang === "zh"
+          ? `
+            <div class="card">
+              <h3>✍️ Tô nét chữ Hán chuẩn bút thuận: "${lesson.writingChar}"</h3>
+              <p class="sub-text">Dùng ngón tay hoặc chuột tô trực tiếp lên ô Điền Tự.</p>
+              <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:8px;">
+                <button class="btn btn-primary" onclick="animateHanzi('${lesson.writingChar}')">▶ Xem nét mẫu</button>
+                <button class="btn btn-accent" onclick="quizHanzi('${lesson.writingChar}')">✏️ Tự tô nét</button>
+                <button class="btn btn-soft" onclick="clearHanziCanvas()">🧹 Xóa nét</button>
+              </div>
+              <div class="tian-zi-ge">
+                <div id="hanzi-target"></div>
+                <canvas id="draw-canvas" width="240" height="240"></canvas>
+              </div>
+              <div id="hanzi-status" class="sub-text" style="text-align:center;"></div>
+            </div>
+          `
+          : `
+            <div class="card">
+              <h3>✍️ Nghe & Viết chính tả (Dictation)</h3>
+              <p class="sub-text">Nghe từ vựng và gõ chính xác vào ô bên dưới:</p>
+              <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+                <button class="btn btn-primary" onclick="speakText('${lesson.dictationTarget}', 0.85)">🔊 Nghe từ</button>
+                <button class="btn btn-soft" onclick="showDictationHint('${lesson.dictationTarget}')">💡 Gợi ý</button>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <input id="dictation-input" type="text" placeholder="Nhập từ bạn nghe được..."
+                       style="padding:9px 12px; border:1px solid var(--border); border-radius:9px; font-size:0.95rem; flex:1; min-width:180px;" />
+                <button class="btn btn-accent" onclick="checkDictation('${lesson.dictationTarget}')">Kiểm tra</button>
+              </div>
+              <div id="dictation-feedback"></div>
+            </div>
+          `;
+
+      container.innerHTML = `
+        <div class="card">
+          <h3>📖 Đọc hiểu: ${r.title}</h3>
+          <div class="target-text">${r.text}</div>
+          <div class="sub-text">${rPhon}</div>
+          <div class="sub-text">🇻🇳 ${r.vi}</div>
+          <div style="margin-top:8px;">
+            <button class="btn btn-soft" onclick="speakText('${r.text.replace(/'/g, "\\'")}', 0.95)">🔊 Nghe đoạn đọc</button>
+          </div>
+          <div style="margin-top:12px;">
+            <strong>Câu hỏi đọc hiểu:</strong> ${r.question}
+            <div style="margin-top:8px; display:flex; flex-direction:column; gap:6px;">
+              ${r.options
+                .map(
+                  (opt, idx) =>
+                    `<button class="btn btn-soft" style="text-align:left;" onclick="checkReadingAnswer(${idx}, ${r.correctIndex})">${opt}</button>`
+                )
+                .join("")}
+            </div>
+            <div id="reading-feedback"></div>
+          </div>
+        </div>
+        ${writingBlock}
+      `;
+
+      if (state.lang === "zh") {
+        initHanziBoard(lesson.writingChar);
+      }
+    }
+
+    function checkReadingAnswer(chosen, correct) {
+      const fb = document.getElementById("reading-feedback");
+      if (chosen === correct) {
+        addXp(15);
+        fb.innerHTML = `<div class="feedback-ok">✅ Đọc hiểu chính xác! (+15 XP)</div>`;
+      } else {
+        fb.innerHTML = `<div class="feedback-err">❌ Chưa đúng, hãy đọc lại đoạn văn và chọn lại nhé.</div>`;
+      }
+    }
+
+    function showDictationHint(word) {
+      document.getElementById("dictation-feedback").innerHTML =
+        `<div class="sub-text" style="margin-top:8px;">💡 Bắt đầu bằng "<strong>${word[0]}</strong>", gồm <strong>${word.length}</strong> chữ cái.</div>`;
+    }
+
+    function checkDictation(expected) {
+      const val = (document.getElementById("dictation-input").value || "").trim().toLowerCase();
+      const fb = document.getElementById("dictation-feedback");
+      if (val === expected.toLowerCase()) {
+        addXp(15);
+        fb.innerHTML = `<div class="feedback-ok">✅ Chính xác! Từ đúng là "${expected}" (+15 XP)</div>`;
+      } else {
+        fb.innerHTML = `<div class="feedback-err">❌ Chưa chính xác. Hãy nghe lại và thử gõ lại nhé!</div>`;
+      }
+    }
+
+    let hanziWriterInstance = null;
+
+    function initHanziBoard(char) {
+      const targetEl = document.getElementById("hanzi-target");
+      const statusEl = document.getElementById("hanzi-status");
+      if (!targetEl) return;
+      targetEl.innerHTML = "";
+
+      if (window.HanziWriter) {
+        try {
+          hanziWriterInstance = HanziWriter.create("hanzi-target", char, {
+            width: 240,
+            height: 240,
+            padding: 16,
+            showOutline: true,
+            strokeAnimationSpeed: 1,
+            delayBetweenStrokes: 250
+          });
+          if (statusEl) statusEl.textContent = "Sẵn sàng luyện tô chữ Hán trên điện thoại.";
+        } catch (err) {
+          if (statusEl) statusEl.textContent = "Đang dùng bảng vẽ cảm ứng trực tiếp.";
+        }
+      }
+      setupFallbackCanvas(char, statusEl);
+    }
+
+    function setupFallbackCanvas(char, statusEl) {
+      const canvas = document.getElementById("draw-canvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      let drawing = false;
+
+      const getPos = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
+        return {
+          x: ((clientX - rect.left) / rect.width) * canvas.width,
+          y: ((clientY - rect.top) / rect.height) * canvas.height
+        };
+      };
+
+      const startDraw = (e) => {
+        e.preventDefault();
+        drawing = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        ctx.lineWidth = 8;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "#1d4ed8";
+      };
+
+      const moveDraw = (e) => {
+        if (!drawing) return;
+        e.preventDefault();
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+      };
+
+      const endDraw = () => {
+        if (drawing) {
+          drawing = false;
+          ctx.closePath();
+          if (statusEl) statusEl.textContent = `Đã ghi nhận nét tô chữ "${char}".`;
+        }
+      };
+
+      canvas.onmousedown = startDraw;
+      canvas.onmousemove = moveDraw;
+      window.addEventListener("mouseup", endDraw);
+      canvas.ontouchstart = startDraw;
+      canvas.ontouchmove = moveDraw;
+      canvas.ontouchend = endDraw;
+    }
+
+    function animateHanzi(char) {
+      if (hanziWriterInstance && typeof hanziWriterInstance.animateCharacter === "function") {
+        hanziWriterInstance.animateCharacter();
+      } else {
+        const canvas = document.getElementById("draw-canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.font = "140px 'Noto Sans CJK SC', serif";
+        ctx.fillStyle = "rgba(29, 78, 216, 0.22)";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(char, canvas.width / 2, canvas.height / 2 + 6);
+        ctx.restore();
+      }
+    }
+
+    function quizHanzi(char) {
+      if (hanziWriterInstance && typeof hanziWriterInstance.quiz === "function") {
+        hanziWriterInstance.quiz({
+          onComplete: () => {
+            addXp(20);
+            document.getElementById("hanzi-status").innerHTML =
+              `<span class="word-chip word-ok">✅ Hoàn thành tô đúng nét chữ "${char}" (+20 XP)!</span>`;
+          }
+        });
+      } else {
+        addXp(10);
+        document.getElementById("hanzi-status").innerHTML =
+          `<span class="word-chip word-ok">✅ Đã ghi nhận luyện viết chữ "${char}" (+10 XP)!</span>`;
+      }
+    }
+
+    function clearHanziCanvas() {
+      const canvas = document.getElementById("draw-canvas");
+      if (canvas) {
+        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+      }
+      const statusEl = document.getElementById("hanzi-status");
+      if (statusEl) statusEl.textContent = "Đã xóa nét vẽ.";
+    }
+
+    function renderStep5Quiz(container, lesson) {
+      const q = lesson.quiz;
+      container.innerHTML = `
+        <div class="card">
+          <h3>🎯 Tổng kết bài & Mở khóa bài tiếp theo</h3>
+          <p><strong>Câu hỏi:</strong> ${q.question}</p>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+            ${q.options
+              .map(
+                (opt, idx) =>
+                  `<button class="btn btn-soft" style="text-align:left; padding:10px 14px;" onclick="submitLessonQuiz(${idx}, ${q.correctIndex}, ${lesson.id})">${opt}</button>`
+              )
+              .join("")}
+          </div>
+          <div id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function submitLessonQuiz(chosen, correct, lessonId) {
+      const fb = document.getElementById("quiz-feedback");
+      const lang = state.lang;
+      const list = getLessons();
+
+      if (chosen !== correct) {
+        fb.innerHTML = `<div class="feedback-err">❌ Chưa chính xác! Hãy xem lại nội dung bài và chọn lại nhé.</div>`;
+        return;
+      }
+
+      if (!state.completed[lang].includes(lessonId)) {
+        state.completed[lang].push(lessonId);
+        addXp(30);
+        state.streak += 1;
+        document.getElementById("streak-display").textContent = `🔥 ${state.streak} ngày`;
+      }
+
+      const nextLesson = list.find((l) => l.id === lessonId + 1);
+      let nextHtml = "";
+      if (nextLesson) {
+        if (!state.unlocked[lang].includes(nextLesson.id)) {
+          state.unlocked[lang].push(nextLesson.id);
+        }
+        nextHtml = `
+          <div style="margin-top:10px;">
+            <button class="btn btn-primary" onclick="selectLesson(${nextLesson.id})">
+              🔓 Bài ${nextLesson.id}: ${nextLesson.title} →
+            </button>
+          </div>
+        `;
+      } else {
+        nextHtml = `<div style="margin-top:10px;">🎉 Bạn đã hoàn thành toàn bộ 50 bài của lộ trình này!</div>`;
+      }
+
+      fb.innerHTML = `
+        <div class="feedback-ok">
+          ✅ Xuất sắc! Bạn đã hoàn thành Bài ${lessonId} (+30 XP).
+          ${nextHtml}
+        </div>
+      `;
+      renderSidebar();
+    }
+
+    renderSidebar();
+    renderWorkspace();
+  </script>
+</body>
+</html>
